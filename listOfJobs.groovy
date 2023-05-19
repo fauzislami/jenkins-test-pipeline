@@ -26,5 +26,3 @@ def getJobsToTrigger() {
 
     return jobsToTrigger
 }
-
-return getJobsToTrigger()
