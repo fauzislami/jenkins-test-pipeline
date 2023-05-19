@@ -16,7 +16,7 @@ node {
         script {
             def varsFile = "listOfJobs.groovy"
             def content = readFile varsFile
-            def a = content.getJobsToTrigger
+            def a = content.jobsToTrigger
             getExistingJobs(jobsToTrigger: content.a)
         }
     }
