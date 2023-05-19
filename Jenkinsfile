@@ -15,7 +15,7 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            echo "${varsFile.collect { it.job }}"
+            echo "${varsFile.collect { it }}"
             getExistingJobs(jobsToTrigger: varsFile.collect { it.job })
         }
     }
