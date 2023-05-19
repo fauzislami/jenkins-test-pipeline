@@ -11,7 +11,7 @@
 // ]
 
 // getExistingJobs(jobsToTrigger: jobsToTrigger)
-getExistingJobs()
+getExistingJobs("listOfJobs.groovy")
 
 def count = jobsToTrigger.size()
 def parallelJobs = [:]
