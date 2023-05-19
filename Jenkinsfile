@@ -47,6 +47,9 @@ pipeline {
             }
         }
         stage('Hello-Again') {
+            when {
+                expression { currentBuild.result != 'FAILURE' }
+            }
             steps {
                 echo "Hello Again!"
             }
