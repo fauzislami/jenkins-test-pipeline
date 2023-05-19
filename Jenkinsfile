@@ -10,7 +10,14 @@ def jobsToTrigger = [
     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 ]
 
-getExistingJobs(jobsToTrigger: jobsToTrigger)
+node {
+    stage("Load Variables") {
+        def loadedVariables = load 'listOfJobs.groovy'
+    }
+}
+
+// getExistingJobs(jobsToTrigger: jobsToTrigger)
+getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
 // getExistingJobs()
 
 def count = jobsToTrigger.size()
