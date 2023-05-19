@@ -12,6 +12,9 @@ def jobsToTrigger = [
 
 getExistingJobs(jobsToTrigger: jobsToTrigger)
 
+def count = jobsToTrigger.size()
+def parallelJobs = [:]
+
 for (def i = 0; i < count; i++) {
     def jobParams = jobsToTrigger[i]
     parallelJobs[jobParams.job] = generateStage(jobParams)
@@ -36,7 +39,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
                         parallel parallelJobs
                     }                
@@ -44,9 +47,6 @@ pipeline {
             }
         }
         stage('Hello-Again') {
-            when {
-                expression { currentBuild.result != 'FAILURE' }
-            }
             steps {
                 echo "Hello Again!"
             }
