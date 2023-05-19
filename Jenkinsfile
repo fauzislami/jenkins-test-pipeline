@@ -11,7 +11,8 @@
 // ]
 
 // getExistingJobs(jobsToTrigger: jobsToTrigger)
-getExistingJobs("${env.WORKSPACE}/listOfJobs.groovy")
+def workspace = ${env.WORKSPACE}
+getExistingJobs("${workspace}/listOfJobs.groovy")
 
 def count = jobsToTrigger.size()
 def parallelJobs = [:]
