@@ -11,7 +11,7 @@
 // ]
 
 // getExistingJobs(jobsToTrigger: jobsToTrigger)
-def workspace = ${env.WORKSPACE}
+def workspace = "/var/jenkins_home/workspace/Master Pipeline"
 getExistingJobs("${workspace}/listOfJobs.groovy")
 
 def count = jobsToTrigger.size()
