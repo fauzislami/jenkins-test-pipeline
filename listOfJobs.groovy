@@ -1,6 +1,6 @@
-def jobsToTrigger = [
+jobsToTrigger = [
     [job: 'test-1', params: [string(name: 'city', value: 'bogor'), string(name: 'province', value: 'west java')]],
-    [job: 'test-2', params: [string(name: 'city', value: 'jogja',), string(name: 'province', value: 'jogja')]],
+    [job: 'test-2', params: [string(name: 'city', value: 'jogja'), string(name: 'province', value: 'jogja')]],
     [job: 'test-3', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]],
     [job: 'test-4', params: [string(name: 'city', value: 'jakarta'), string(name: 'province', value: 'jakarta')]],
     [job: 'test-5', params: [string(name: 'city', value: 'semarang'), string(name: 'province', value: 'central java')]],
