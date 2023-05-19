@@ -11,8 +11,7 @@
 // ]
 
 // getExistingJobs(jobsToTrigger: jobsToTrigger)
-def workspace = "/var/jenkins_home/workspace/Master Pipeline"
-getExistingJobs("${workspace}/listOfJobs.groovy")
+getExistingJobs()
 
 def count = jobsToTrigger.size()
 def parallelJobs = [:]
