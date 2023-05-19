@@ -6,7 +6,8 @@ node {
         script {
             def varsFile = load 'listOfJobs.groovy'
             def jobs = varsFile.collect { it }
-            getExistingJobs(jobsToTrigger: jobs)
+//             getExistingJobs(jobsToTrigger: jobs)
+            getExistingJobs(jobsToTrigger: jobs, "test-1")
         }
     }
 }
