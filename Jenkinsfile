@@ -15,7 +15,8 @@ node {
         checkout scm
         def varsFile = "listOfJobs.groovy"
         def content = readFile varsFile
-        getExistingJobs(jobsToTrigger: content.jobsToTrigger)
+        def a = content.jobsToTrigger
+        getExistingJobs(jobsToTrigger: content.a)
     }
 }
 
