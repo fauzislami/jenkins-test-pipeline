@@ -12,9 +12,10 @@ def jobsToTrigger = [
 
 node {
     stage("Load Variables") {
-        def loadedVariables = load 'listOfJobs.groovy'
+        def varsFile = "listOfJobs.groovy"
+        def content = readFile varsFile
         //getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
-        echo loadedVariables.jobsToTrigger
+        echo "${content}"
     }
 }
 
