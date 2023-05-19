@@ -12,10 +12,9 @@
 
 node {
     stage("Load Variables") {
-//         def varsFile = "listOfJobs.groovy"
-//         def content = readFile varsFile
-//         echo "${content}"
-        sh "sed -i "/Library/ r listOfJobs.groovy" Jenkinsfile"
+        def varsFile = "listOfJobs.groovy"
+        def content = readFile varsFile
+        echo "${content}"
     }
 }
 
