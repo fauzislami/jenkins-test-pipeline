@@ -15,7 +15,7 @@ node {
         def varsFile = "listOfJobs.groovy"
         def content = readFile varsFile
         echo "${content}"
-        getExistingJobs(jobsToTrigger: "${content}")
+        getExistingJobs(jobsToTrigger: content)
     }
 }
 
