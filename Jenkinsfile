@@ -10,8 +10,14 @@
 //     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 // ]
 
-def count = jobsToTrigger.size()
-def parallelJobs = [:]
+def jobsToTrigger
+
+stage('Read Jobs') {
+    steps {
+        jobsToTrigger = readFile(file: 'listOfJobs.groovy')
+        getExistingJobs(jobsToTrigger: jobsToTrigger)
+    }
+}
 
 for (def i = 0; i < count; i++) {
     def jobsToTrigger = readFile(file: 'listOfJobs.groovy')
