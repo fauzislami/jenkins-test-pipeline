@@ -5,7 +5,7 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            def jobs = vars.collect { it }
+            def jobs = varsFile.collect { it }
 //             getExistingJobs(jobsToTrigger: varsFile.collect { it })
             getExistingJobs(jobsToTrigger: jobs)
         }
