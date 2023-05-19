@@ -10,10 +10,6 @@
 //     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 // ]
 
-readFile('${WORKSPACE}/listOfJobs.groovy')
-
-getExistingJobs(jobsToTrigger: jobsToTrigger)
-
 def count = jobsToTrigger.size()
 def parallelJobs = [:]
 
@@ -43,6 +39,8 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
+                        readFile('${WORKSPACE}/listOfJobs.groovy')
+                        getExistingJobs(jobsToTrigger: jobsToTrigger)
                         parallel parallelJobs
                     }                
                 }
