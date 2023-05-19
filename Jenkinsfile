@@ -13,7 +13,8 @@ def jobsToTrigger = [
 node {
     stage("Load Variables") {
         def loadedVariables = load 'listOfJobs.groovy'
-        getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
+        //getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
+        echo loadedVariables.jobsToTrigger
     }
 }
 
