@@ -1,6 +1,6 @@
 import groovy.transform.Field
 
-@Field def jobsToTrigger = [
+@Field Map jobsToTrigger = [
     [job: 'test-1', params: [string(name: 'city', value: 'bogor'), string(name: 'province', value: 'west java')]],
     [job: 'test-2', params: [string(name: 'city', value: 'jogja',), string(name: 'province', value: 'jogja')]],
     [job: 'test-3', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]],
@@ -10,4 +10,4 @@ import groovy.transform.Field
     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 ]
 
-return;
+return this;
