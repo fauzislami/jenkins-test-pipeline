@@ -10,7 +10,7 @@
 //     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 // ]
 
-def jobsToTrigger = load 'listOfJobs.groovy'
+readFile('name-of-file.groovy')
 
 getExistingJobs(jobsToTrigger: jobsToTrigger)
 
