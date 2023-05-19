@@ -10,7 +10,8 @@
 //     [job: 'test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]]
 // ]
 
-def jobsToTrigger = load 'listOfJobs.groovy'
+def fileContent = readFile('listOfJobs.groovy')
+def jobsToTrigger = evaluate(fileContent)
 getExistingJobs(jobsToTrigger: jobsToTrigger)
 
 def count = jobsToTrigger.size()
