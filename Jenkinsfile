@@ -13,11 +13,11 @@ def jobsToTrigger = [
 node {
     stage("Load Variables") {
         def loadedVariables = load 'listOfJobs.groovy'
+        getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
     }
 }
 
 // getExistingJobs(jobsToTrigger: jobsToTrigger)
-getExistingJobs(jobsToTrigger: loadedVariables.jobsToTrigger)
 // getExistingJobs()
 
 def count = jobsToTrigger.size()
