@@ -39,7 +39,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
                         parallel parallelJobs
                     }                
