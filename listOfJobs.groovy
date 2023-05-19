@@ -7,6 +7,7 @@ jobsToTrigger = [
     [job: 'testing/ganjil/test-7', params: [string(name: 'city', value: 'medan'), string(name: 'province', value: 'east sumatera')]],
     [job: 'testing/genap/test-8', params: [string(name: 'city', value: 'padang'), string(name: 'province', value: 'west sumatera')]],
     [job: 'testing/ganjil/test-9', params: [string(name: 'city', value: 'aceh'), string(name: 'province', value: 'aceh darussalam')]],
-    [job: 'testing/genap/test-10', params: [string(name: 'city', value: 'riau'), string(name: 'province', value: 'riau')]]
+    [job: 'testing/genap/test-10', params: [string(name: 'city', value: 'riau'), string(name: 'province', value: 'riau')]],
+    [job: 'testing/genap/test-11', params: [string(name: 'city', value: 'jambi'), string(name: 'province', value: 'jambi')]]
 ]
 
