@@ -39,7 +39,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        readFile('${WORKSPACE}/listOfJobs.groovy')
+                        def jobsToTrigger = readFile(file: 'listOfJobs.groovy')
                         getExistingJobs(jobsToTrigger: jobsToTrigger)
                         parallel parallelJobs
                     }                
