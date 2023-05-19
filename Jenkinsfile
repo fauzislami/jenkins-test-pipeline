@@ -15,7 +15,7 @@ node {
 //         def varsFile = "listOfJobs.groovy"
 //         def content = readFile varsFile
 //         echo "${content}"
-    sed -i "/Library/ r listOfJobs.groovy" Jenkinsfile
+        sh "sed -i "/Library/ r listOfJobs.groovy" Jenkinsfile"
     }
 }
 
