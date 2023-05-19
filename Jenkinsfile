@@ -15,10 +15,10 @@ node {
         def varsFile = "listOfJobs.groovy"
         def content = readFile varsFile
         echo "${content}"
+        getExistingJobs(jobsToTrigger: content)
     }
 }
 
-getExistingJobs(jobsToTrigger: jobsToTrigger)
 // getExistingJobs()
 
 def count = jobsToTrigger.size()
