@@ -14,6 +14,9 @@ def count = jobsToTrigger.size()
 def parallelJobs = [:]
 
 for (def i = 0; i < count; i++) {
+    def jobsToTrigger = readFile(file: 'listOfJobs.groovy')
+    getExistingJobs(jobsToTrigger: jobsToTrigger)
+    
     def jobParams = jobsToTrigger[i]
     parallelJobs[jobParams.job] = generateStage(jobParams)
 }
@@ -39,8 +42,6 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        def jobsToTrigger = readFile(file: 'listOfJobs.groovy')
-                        getExistingJobs(jobsToTrigger: jobsToTrigger)
                         parallel parallelJobs
                     }                
                 }
