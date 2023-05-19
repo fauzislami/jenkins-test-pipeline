@@ -10,6 +10,7 @@ jobsToTrigger = [
     [job: 'testing/even/test-10', params: [string(name: 'city', value: 'riau'), string(name: 'province', value: 'riau')]],
     [job: 'testing/odd/test-11', params: [string(name: 'city', value: 'jambi'), string(name: 'province', value: 'jambi')]],
     [job: 'testing/even/test-12', params: [string(name: 'city', value: 'palembang'), string(name: 'province', value: 'south sumatera')]],
-    [job: 'testing/odd/test-13', params: [string(name: 'city', value: 'lampung'), string(name: 'province', value: 'bandar lampung')]]
+    [job: 'testing/odd/test-13', params: [string(name: 'city', value: 'lampung'), string(name: 'province', value: 'bandar lampung')]],
+    [job: 'testing/odd/test-14', params: [string(name: 'city', value: 'bengkulu'), string(name: 'province', value: 'bengkulu')]]
 ]
 
