@@ -13,10 +13,12 @@
 node {
     stage("Load Variables") {
         checkout scm
-        def varsFile = "listOfJobs.groovy"
-        def content = readFile varsFile
-        def a = content.jobsToTrigger
-        getExistingJobs(jobsToTrigger: content.a)
+        script {
+            def varsFile = "listOfJobs.groovy"
+            def content = readFile varsFile
+            def a = content.jobsToTrigger
+            getExistingJobs(jobsToTrigger: content.a)
+        }
     }
 }
 
