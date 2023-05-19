@@ -14,12 +14,11 @@ node {
     stage("Load Variables") {
         def varsFile = "listOfJobs.groovy"
         def content = readFile varsFile
-        getExistingJobs(jobsToTrigger: "${content}")
         echo "${content}"
     }
 }
 
-// getExistingJobs(jobsToTrigger: jobsToTrigger)
+getExistingJobs(jobsToTrigger: jobsToTrigger)
 // getExistingJobs()
 
 def count = jobsToTrigger.size()
