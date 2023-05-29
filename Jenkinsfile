@@ -15,7 +15,7 @@ def count = firstJob.size()
 def parallelJobs = [:]
 
 for (def i = 0; i < count; i++) {
-    def jobParams = firstJob[i]
+    def jobParams = firstJobs[i]
     parallelJobs[jobParams.job] = generateStage(jobParams)
 }
 
