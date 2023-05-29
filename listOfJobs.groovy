@@ -16,9 +16,9 @@ firstJob = [
 ]
 
 
-secondJob = [
-    [job: 'testing/additional/additional-1', params: [string(name: 'city', value: 'balikpapan'), string(name: 'province', value: 'east borneo')]],
-    [job: 'testing/additional/additional-2', params: [string(name: 'city', value: 'pontianak'), string(name: 'province', value: 'west borneo')]]
-]
+// secondJob = [
+//     [job: 'testing/additional/additional-1', params: [string(name: 'city', value: 'balikpapan'), string(name: 'province', value: 'east borneo')]],
+//     [job: 'testing/additional/additional-2', params: [string(name: 'city', value: 'pontianak'), string(name: 'province', value: 'west borneo')]]
+// ]
 
 
