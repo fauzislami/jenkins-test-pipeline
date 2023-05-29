@@ -11,7 +11,7 @@ node {
     }
 }
 
-def count = firstJob.size()
+def count = firstJobs.size()
 def parallelJobs = [:]
 
 for (def i = 0; i < count; i++) {
