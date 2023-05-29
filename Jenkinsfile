@@ -5,21 +5,42 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-//             def firstJobs = varsFile.collect { it }
             getExistingJobs(jobsToTrigger: firstJob, jobTemplate: "testing/test-1")
+            getExistingJobs(jobsToTrigger: secondJob, jobTemplate: "testing/test-1")
         }
     }
 }
 
 def countFirstJob = firstJob.size()
+def countSecondJob = secondJob.size()
 def parallelFirstJobs = [:]
+def parallelSecondJobs = [:]
 
 for (def i = 0; i < countFirstJob; i++) {
     def jobParams = firstJob[i]
     parallelFirstJobs[jobParams.job] = stageFirstJobs(jobParams)
 }
 
+for (def i = 0; i < countSecondJob; i++) {
+    def jobParams = secondJob[i]
+    parallelSecondJobs[jobParams.job] = stageSecondJobs(jobParams)
+}
+
 def stageFirstJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
+
+def stageSecondJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
@@ -50,8 +71,11 @@ pipeline {
                 expression { currentBuild.result != 'FAILURE' }
             }
             steps {
-                echo "Hello Again!"
-                getExistingJobs(jobsToTrigger: secondJob, jobTemplate: "testing/test-1")
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    script {
+                        parallel parallelSecondJobs
+                    }
+                }
             }
         }
     }
