@@ -1,4 +1,4 @@
-jobsToTrigger = [
+firstJob = [
     [job: 'tests/fauzi-test/DCLBuild/UE4.27/DNA Client Sample Project-UE4.27-Win64-Shipping', params: [string(name: 'city', value: 'kepri'), string(name: 'province', value: 'tanjung pinang')]],
     [job: 'testing/even/test-2', params: [string(name: 'city', value: 'jogja'), string(name: 'province', value: 'jogja')]],
     [job: 'testing/odd/test-3', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]],
@@ -14,4 +14,11 @@ jobsToTrigger = [
     [job: 'testing/odd/test-13', params: [string(name: 'city', value: 'lampung'), string(name: 'province', value: 'bandar lampung')]],
     [job: 'testing/even/test-14', params: [string(name: 'city', value: 'bengkulu'), string(name: 'province', value: 'bengkulu')]]
 ]
+
+
+secondJob = [
+    [job: 'testing/additional/additional-1', params: [string(name: 'city', value: 'balikpapan'), string(name: 'province', value: 'east borneo')]],
+    [job: 'testing/additional/additional-2', params: [string(name: 'city', value: 'pontianak'), string(name: 'province', value: 'west borneo')]]
+]
+
 
