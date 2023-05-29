@@ -4,7 +4,8 @@ node {
     stage("Load Variables") {
         checkout scm
         script {
-            def varsFile = load 'listOfJobs.groovy'
+//             def varsFile = load 'listOfJobs.groovy'
+            def varsFile = new File('listOfJobs.groovy').text
             def firstJobs = varsFile.collect { it -> it.firstJob }
             getExistingJobs(jobsToTrigger: firstJobs, jobTemplate: "testing/test-1")
         }
