@@ -11,11 +11,11 @@ node {
     }
 }
 
-def count = firstJobs.size()
+def count = firstJob.size()
 def parallelJobs = [:]
 
 for (def i = 0; i < count; i++) {
-    def jobParams = firstJobs[i]
+    def jobParams = firstJob[i]
     parallelJobs[jobParams.job] = generateStage(jobParams)
 }
 
