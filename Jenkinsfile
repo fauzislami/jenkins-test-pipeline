@@ -36,7 +36,7 @@ def generateStage(jobParams) {
 pipeline {
     agent any
     stages {
-        stage('Hello') {
+        stage('First Job') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
@@ -45,12 +45,13 @@ pipeline {
                 }
             }
         }
-        stage('Hello-Again') {
+        stage('Second Job') {
             when {
                 expression { currentBuild.result != 'FAILURE' }
             }
             steps {
                 echo "Hello Again!"
+                getExistingJobs(jobsToTrigger: secondJob, jobTemplate: "testing/test-1")
             }
         }
     }
