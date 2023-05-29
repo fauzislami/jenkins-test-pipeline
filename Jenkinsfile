@@ -5,17 +5,17 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            def jobs = varsFile.collect { it }
-            getExistingJobs(jobsToTrigger: jobs, jobTemplate: "testing/test-1")
+            def firstJobs = varsFile.collect { it.firstJob }
+            getExistingJobs(jobsToTrigger: firstJobs, jobTemplate: "testing/test-1")
         }
     }
 }
 
-def count = jobsToTrigger.size()
+def count = firstJob.size()
 def parallelJobs = [:]
 
 for (def i = 0; i < count; i++) {
-    def jobParams = jobsToTrigger[i]
+    def jobParams = firstJob[i]
     parallelJobs[jobParams.job] = generateStage(jobParams)
 }
 
