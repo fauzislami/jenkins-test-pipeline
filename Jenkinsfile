@@ -11,15 +11,15 @@ node {
     }
 }
 
-def count = firstJob.size()
-def parallelJobs = [:]
+def countFirstJob = firstJob.size()
+def parallelFirstJobs = [:]
 
-for (def i = 0; i < count; i++) {
+for (def i = 0; i < countFirstJob; i++) {
     def jobParams = firstJob[i]
-    parallelJobs[jobParams.job] = generateStage(jobParams)
+    parallelFirstJobs[jobParams.job] = stageFirstJobs(jobParams)
 }
 
-def generateStage(jobParams) {
+def stageFirstJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        parallel parallelJobs
+                        parallel parallelFirstJobs
                     }                
                 }
             }
