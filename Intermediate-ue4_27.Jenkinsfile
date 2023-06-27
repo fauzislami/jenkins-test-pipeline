@@ -6,24 +6,24 @@ node {
         script {
             def varsFile = load 'listOfJobs.groovy'
             getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: secondJob, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
 
 def countUE4_27BaseJobs = UE4_27BaseJobs.size()
-def countSecondJob = secondJob.size()
+def countUE4_27PlatformsJobs = UE4_27PlatformsJobs.size()
 def parallelUE4_27BaseJobs = [:]
-def parallelSecondJobs = [:]
+def parallelUE4_27PlatformsJobs = [:]
 
 for (def i = 0; i < countUE4_27BaseJobs; i++) {
     def jobParams = UE4_27BaseJobs[i]
     parallelUE4_27BaseJobs[jobParams.job] = stageUE4_27BaseJobs(jobParams)
 }
 
-for (def i = 0; i < countSecondJob; i++) {
-    def jobParams = secondJob[i]
-    parallelSecondJobs[jobParams.job] = stageSecondJobs(jobParams)
+for (def i = 0; i < countUE4_27PlatformsJobs; i++) {
+    def jobParams = UE4_27PlatformsJobs[i]
+    parallelUE4_27PlatformsJobs[jobParams.job] = stageUE4_27PlatformsJobs(jobParams)
 }
 
 def stageUE4_27BaseJobs(jobParams) {
@@ -40,7 +40,7 @@ def stageUE4_27BaseJobs(jobParams) {
     }
 }
 
-def stageSecondJobs(jobParams) {
+def stageUE4_27PlatformsJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
@@ -73,7 +73,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        parallel parallelSecondJobs
+                        parallel parallelUE4_27PlatformsJobs
                     }
                 }
             }
