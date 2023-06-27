@@ -5,7 +5,7 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            getExistingJobs(jobToTrigger: [UE4_27BaseJobs, UE5_0BaseJobs, UE5_1BaseJobs, UE5_2BaseJobs], jobTemplate: "testing/template")
+            getExistingJobs(jobToTrigger: [UE4_27BaseJobs, UE5_0BaseJobs, UE5_1BaseJobs, UE5_2BaseJobs], jobTemplate: "testing/intermediate-template")
         }
     }
 }
