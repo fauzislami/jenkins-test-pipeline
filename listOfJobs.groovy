@@ -1,5 +1,4 @@
 firstJob = [
-    [job: 'tests/fauzi-test/DCLBuild/UE4.27/DNA Client Sample Project-UE4.27-Win64-Shipping', params: [string(name: 'city', value: 'kepri'), string(name: 'province', value: 'tanjung pinang')]],
     [job: 'testing/even/test-2', params: [string(name: 'city', value: 'jogja'), string(name: 'province', value: 'jogja')]],
     [job: 'testing/odd/test-3', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]],
     [job: 'testing/even/test-4', params: [string(name: 'city', value: 'jakarta'), string(name: 'province', value: 'jakarta')]],
