@@ -57,7 +57,7 @@ def stageUE4_27PlatformsJobs(jobParams) {
 pipeline {
     agent any
     stages {
-        stage('First Job') {
+        stage('UE4.27 Base Jobs') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
@@ -66,7 +66,7 @@ pipeline {
                 }
             }
         }
-        stage('Second Job') {
+        stage('UE4.27 Jobs for Other Platforms') {
             when {
                 expression { currentBuild.result != 'FAILURE' }
             }
