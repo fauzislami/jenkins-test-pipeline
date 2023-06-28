@@ -27,16 +27,29 @@ pipeline {
 
 pipeline {
     agent any
-    
-    parameters {
-        string(name: 'UEVersion', defaultValue: '', description: 'Specify UE Version')
-    }
-    
+
     stages {
-        stage("Triggering Intermediate Jobs") {
-            steps {
-                script {
-                    build job: 'testing/Intermediates/Intermediate-jobs', parameters: [string(name: 'UEVersion', value: '4_27')]
+        stage('Triggering Intermediate Jobs') {
+            parallel {
+                stage('Intermediate-ue4_27') {
+                    steps {
+                        build job: 'testing/Intermediates/Intermediate-ue4_27'
+                    }
+                }
+                stage('Intermediate-ue5_0') {
+                    steps {
+                        build job: 'testing/Intermediates/Intermediate-ue5_0'
+                    }
+                }
+                stage('Intermediate-ue5_1') {
+                    steps {
+                        build job: 'testing/Intermediates/Intermediate-ue5_1'
+                    }
+                }
+                stage('Intermediate-ue5_2') {
+                    steps {
+                        build job: 'testing/Intermediates/Intermediate-ue5_2'
+                    }
                 }
             }
         }
