@@ -1,4 +1,3 @@
-/*
 pipeline {
     agent any
     
@@ -21,15 +20,5 @@ pipeline {
                 )
             }
         }
-    }
-}
-*/
-
-node {
-    stage("Triggering Intermediate Jobs"){
-        checkout scm 
-        script {
-            load 'Intermediate-ue4_27.Jenkinsfile'
-        }  
     }
 }
