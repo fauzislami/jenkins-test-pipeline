@@ -29,7 +29,7 @@ node {
     stage("Triggering Intermediate Jobs"){
         checkout scm 
         script {
-            load 'jenkins-test-pipeline/Intermediate-ue4_27.Jenkinsfile'
+            load 'Intermediate-ue4_27.Jenkinsfile'
         }  
     }
 }
