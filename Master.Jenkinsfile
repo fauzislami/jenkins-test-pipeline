@@ -36,7 +36,7 @@ pipeline {
         stage("Triggering Intermediate Jobs") {
             steps {
                 script {
-                    build job: 'testing/Intermediates/Intermediate-jobs', parameters: [string(name: 'UEVersion', value: params.JobParameter)]
+                    build job: 'testing/Intermediates/Intermediate-jobs', parameters: [string(name: 'UEVersion', value: '4_27')]
                 }
             }
         }
