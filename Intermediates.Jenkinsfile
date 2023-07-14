@@ -14,8 +14,8 @@ node {
             def PlatformsJobs = "${params.PlatformsJobs}"
             println "PlatformsJobs: ${PlatformsJobs}"
             println "BaseJobs: ${BaseJobs}"
-            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: ${BaseJobs}, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: ${PlatformsJobs}, jobTemplate: "testing/template")
         }
     }
 }
