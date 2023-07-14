@@ -6,50 +6,30 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
-def convertToMap(value) {
-    def map = [:]
-    if (value) {
-        value.split(',').each { entry ->
-            def keyValue = entry.trim().split(':')
-            if (keyValue.size() >= 2) {
-                map[keyValue[0].trim()] = keyValue[1].trim()
-            }
-        }
-    }
-    return map
-}
-
-def baseJobsMap = convertToMap(params.BaseJobs)
-def platformsJobsMap = convertToMap(params.PlatformsJobs)
 
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            println "baseJobsMap: ${baseJobsMap}"
-            println "platformsJobsMap: ${platformsJobsMap}"
-            getExistingJobs(jobsToTrigger: baseJobsMap, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: platformsJobsMap, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
-println "baseJobs: ${params.BaseJobs}"
-println "platformsJobs: ${params.PlatformsJobs}"
-//def countBaseJobs = UE4_27BaseJobs.size()
-//def countPlatformsJobs = UE4_27PlatformsJobs.size()
-def countBaseJobs = baseJobsMap.size()
-def countPlatformsJobs = platformsJobsMap.size()
+
+def countBaseJobs = UE4_27BaseJobs.size()
+def countPlatformsJobs = UE4_27PlatformsJobs.size()
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
 for (def i = 0; i < countBaseJobs; i++) {
-    def jobParams = baseJobsMap[i]
+    def jobParams = UE4_27BaseJobs[i]
     parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
 }
 
 for (def i = 0; i < countPlatformsJobs; i++) {
-    def jobParams = platformsJobsMap[i]
+    def jobParams = UE4_27PlatformsJobs[i]
     parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
 }
 
