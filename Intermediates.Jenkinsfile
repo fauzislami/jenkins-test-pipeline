@@ -2,8 +2,8 @@
 
 
 parameters {
-    text(name: 'BaseJobs', defaultValue: 'UE4_27BaseJobs', description: '')
-    text(name: 'PlatformsJobs', defaultValue: 'UE4_27PlatformsJobs', description: '')
+    string(name: 'BaseJobs', defaultValue: 'UE4_27BaseJobs', description: '')
+    string(name: 'PlatformsJobs', defaultValue: 'UE4_27PlatformsJobs', description: '')
 }
 
 
