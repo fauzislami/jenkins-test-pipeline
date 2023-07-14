@@ -14,10 +14,10 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            def UE4_27BaseJobs = varsFile.UE4_27BaseJobs.replaceAll("4_27", BaseJobs)
-            def UE4_27PlatformsJobs = varsFile.UE4_27PlatformsJobs.replaceAll("4_27", PlatformsJobs)
-            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
+            def UE4BaseJobs = "UE${BaseJobs.replace('_','')}"
+            def UE4PlatformsJobs = "UE${PlatformsJobs.replace('_','')}"
+            getExistingJobs(jobsToTrigger: UE4BaseJobs + "BaseJobs", jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4PlatformsJobs + "PlatformsJobs", jobTemplate: "testing/template")
         }
     }
 }
