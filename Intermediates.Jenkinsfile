@@ -31,31 +31,30 @@ node {
                 def jobParams = PlatformsJobs[i]
                 parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
             }
+        }
+        def stageBaseJobs(jobParams) {
+            return {
+                stage("stage: ${jobParams.job}") {
+                    def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+                    def buildResult = triggeredJobs.getResult()
 
-            def stageBaseJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
-
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
+                    if (buildResult != 'SUCCESS') {
+                        error "${jobParams.job} failed"
+                        //notify via slack or email
                     }
                 }
             }
+        }
 
-            def stagePlatformsJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
+        def stagePlatformsJobs(jobParams) {
+            return {
+                stage("stage: ${jobParams.job}") {
+                    def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+                    def buildResult = triggeredJobs.getResult()
 
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
+                    if (buildResult != 'SUCCESS') {
+                        error "${jobParams.job} failed"
+                        //notify via slack or email
                     }
                 }
             }
