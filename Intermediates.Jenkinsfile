@@ -1,32 +1,39 @@
 @Library('MyTestLibrary') _
 
+parameters {
+    string(name: 'BaseJobs', defaultValue: '', description: '')
+    string(name: 'PlatformsJobs', defaultValue: '', description: '')
+}
+
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
+            def BaseJobs = "${params.BaseJobs}"
+            def PlatformsJobs = "${params.PlatformsJobs}"
+            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
 
-def countUE4_27BaseJobs = UE4_27BaseJobs.size()
-def countUE4_27PlatformsJobs = UE4_27PlatformsJobs.size()
-def parallelUE4_27BaseJobs = [:]
-def parallelUE4_27PlatformsJobs = [:]
+def countBaseJobs = BaseJobs.size()
+def countPlatformsJobs = PlatformsJobs.size()
+def parallelBaseJobs = [:]
+def parallelPlatformsJobs = [:]
 
-for (def i = 0; i < countUE4_27BaseJobs; i++) {
-    def jobParams = UE4_27BaseJobs[i]
-    parallelUE4_27BaseJobs[jobParams.job] = stageUE4_27BaseJobs(jobParams)
+for (def i = 0; i < countBaseJobs; i++) {
+    def jobParams = BaseJobs[i]
+    parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
 }
 
-for (def i = 0; i < countUE4_27PlatformsJobs; i++) {
-    def jobParams = UE4_27PlatformsJobs[i]
-    parallelUE4_27PlatformsJobs[jobParams.job] = stageUE4_27PlatformsJobs(jobParams)
+for (def i = 0; i < countPlatformsJobs; i++) {
+    def jobParams = PlatformsJobs[i]
+    parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
 }
 
-def stageUE4_27BaseJobs(jobParams) {
+def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
@@ -40,7 +47,7 @@ def stageUE4_27BaseJobs(jobParams) {
     }
 }
 
-def stageUE4_27PlatformsJobs(jobParams) {
+def stagePlatformsJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
@@ -57,23 +64,23 @@ def stageUE4_27PlatformsJobs(jobParams) {
 pipeline {
     agent any
     stages {
-        stage('UE4.27 Base Jobs') {
+        stage('Base Jobs') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        parallel parallelUE4_27BaseJobs
+                        parallel parallelBaseJobs
                     }                
                 }
             }
         }
-        stage('UE4.27 Jobs for Other Platforms') {
+        stage('Jobs for Other Platforms') {
             when {
                 expression { currentBuild.result != 'FAILURE' }
             }
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     script {
-                        parallel parallelUE4_27PlatformsJobs
+                        parallel parallelPlatformsJobs
                     }
                 }
             }
