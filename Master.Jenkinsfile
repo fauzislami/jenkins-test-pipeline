@@ -3,7 +3,7 @@
 
     stages {
         stage('Triggering Intermediate Jobs') {
-            parallel {
+//            parallel {
                 stage('Intermediate-ue4_27') {
                     steps {
                       script{
@@ -40,7 +40,7 @@
                         build job: 'testing/Intermediates/Intermediate-ue5_2-new', parameters: [string(name: 'BaseJobs', value: 'UE5_2BaseJobs'),  string(name: 'PlatformsJobs', value: 'UE5_2PlatformsJobs')], wait: true
                     }
                 }
-            }
+  //          }
         }
 
         // stage('Triggering Intermediate Jobs') {
