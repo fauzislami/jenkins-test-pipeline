@@ -8,8 +8,8 @@ parameters {
 
 //def BaseJobs = "${params.BaseJobs}"
 //def PlatformsJobs = "${params.PlatformsJobs}"
-def BaseJobs = UE4_27BaseJobs
-def PlatformsJobs = UE4_27PlatformsJobs
+def BaseJobs = "UE4_27BaseJobs"
+def PlatformsJobs = "UE4_27PlatformsJobs"
 
 node {
     stage("Load Variables") {
