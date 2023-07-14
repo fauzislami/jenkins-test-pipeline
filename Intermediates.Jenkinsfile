@@ -20,10 +20,6 @@ node {
     }
 }
 
-def BaseJobs = "${params.BaseJobs}"
-def PlatformsJobs = "${params.PlatformsJobs}"
-println "PlatformsJobs2: ${PlatformsJobs}"
-println "BaseJobs2: ${BaseJobs}"
 def countBaseJobs = BaseJobs.size()
 def countPlatformsJobs = PlatformsJobs.size()
 def parallelBaseJobs = [:]
