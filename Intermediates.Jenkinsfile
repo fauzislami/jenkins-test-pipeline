@@ -22,8 +22,10 @@ node {
     }
 }
 
-def countBaseJobs = BaseJobs.size()
-def countPlatformsJobs = PlatformsJobs.size()
+//def countBaseJobs = BaseJobs.size()
+//def countPlatformsJobs = PlatformsJobs.size()
+def countBaseJobs = UE4_27BaseJobs.size()
+def countPlatformsJobs = UE4_27PlatformsJobs.size()
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
