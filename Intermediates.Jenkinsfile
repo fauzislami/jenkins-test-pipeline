@@ -15,8 +15,8 @@ node {
             def varsFile = load 'listOfJobs.groovy'
             BaseJobs = "${params.BaseJobs}".split(',')
             PlatformsJobs = "${params.PlatformsJobs}".split(',')
-            getExistingJobs(jobsToTrigger: "${params.BaseJobs}", jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: "${params.PlatformsJobs}", jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
