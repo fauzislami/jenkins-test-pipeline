@@ -12,14 +12,16 @@ node {
             def varsFile = load 'listOfJobs.groovy'
             def BaseJobs = "${params.BaseJobs}"
             def PlatformsJobs = "${params.PlatformsJobs}"
-            println "PlatformsJobs: ${PlatformsJobs}"
-            println "BaseJobs: ${BaseJobs}"
+            println "PlatformsJobs1: ${PlatformsJobs}"
+            println "BaseJobs1: ${BaseJobs}"
             getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
 
+println "PlatformsJobs2: ${PlatformsJobs}"
+println "BaseJobs2: ${BaseJobs}"
 def countBaseJobs = BaseJobs.size()
 def countPlatformsJobs = PlatformsJobs.size()
 def parallelBaseJobs = [:]
