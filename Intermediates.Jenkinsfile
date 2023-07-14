@@ -16,53 +16,52 @@ node {
             println "BaseJobs: ${BaseJobs}"
             getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
+        }
+    }
+}
 
-            def countBaseJobs = BaseJobs.size()
-            def countPlatformsJobs = PlatformsJobs.size()
-            def parallelBaseJobs = [:]
-            def parallelPlatformsJobs = [:]
+def countBaseJobs = BaseJobs.size()
+def countPlatformsJobs = PlatformsJobs.size()
+def parallelBaseJobs = [:]
+def parallelPlatformsJobs = [:]
 
-            for (def i = 0; i < countBaseJobs; i++) {
-                def jobParams = BaseJobs[i]
-                parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
-            }
+for (def i = 0; i < countBaseJobs; i++) {
+    def jobParams = BaseJobs[i]
+    parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
+}
 
-            for (def i = 0; i < countPlatformsJobs; i++) {
-                def jobParams = PlatformsJobs[i]
-                parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
-            }
+for (def i = 0; i < countPlatformsJobs; i++) {
+    def jobParams = PlatformsJobs[i]
+    parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
+}
 
-            def stageBaseJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
+def stageBaseJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
 
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
-                    }
-                }
-            }
-
-            def stagePlatformsJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
-
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
-                    }
-                }
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
             }
         }
     }
 }
 
+def stagePlatformsJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
 
 pipeline {
     agent any
