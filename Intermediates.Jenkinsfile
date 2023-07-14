@@ -14,7 +14,9 @@ def convertToMap(value) {
     if (value) {
         value.split(',').each { entry ->
             def keyValue = entry.trim().split(':')
-            map[keyValue[0].trim()] = keyValue[1].trim()
+            if (keyValue.size() >= 2) {
+                map[keyValue[0].trim()] = keyValue[1].trim()
+            }
         }
     }
     return map
