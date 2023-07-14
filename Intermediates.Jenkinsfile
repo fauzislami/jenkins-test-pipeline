@@ -6,8 +6,8 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: 'UE4_27PlatformsJobs', description: '')
 }
 
-def BaseJobs = []
-def PlatformsJobs = []
+def BaseJobs = [:]
+def PlatformsJobs = [:]
 
 node {
     stage("Load Variables") {
