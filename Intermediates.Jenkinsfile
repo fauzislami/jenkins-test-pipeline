@@ -5,6 +5,34 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
+def stageBaseJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
+
+def stagePlatformsJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
+
 node {
     stage("Load Variables") {
         checkout scm
@@ -30,33 +58,6 @@ node {
             for (def i = 0; i < countPlatformsJobs; i++) {
                 def jobParams = PlatformsJobs[i]
                 parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
-            }
-        }
-        def stageBaseJobs(jobParams) {
-            return {
-                stage("stage: ${jobParams.job}") {
-                    def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                    def buildResult = triggeredJobs.getResult()
-
-                    if (buildResult != 'SUCCESS') {
-                        error "${jobParams.job} failed"
-                        //notify via slack or email
-                    }
-                }
-            }
-        }
-
-        def stagePlatformsJobs(jobParams) {
-            return {
-                stage("stage: ${jobParams.job}") {
-                    def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                    def buildResult = triggeredJobs.getResult()
-
-                    if (buildResult != 'SUCCESS') {
-                        error "${jobParams.job} failed"
-                        //notify via slack or email
-                    }
-                }
             }
         }
     }
