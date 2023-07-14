@@ -10,18 +10,11 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            def BaseJobs = "${params.BaseJobs}"
-            def PlatformsJobs = "${params.PlatformsJobs}"
-            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: "${params.BaseJobs}", jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: "${params.PlatformsJobs}", jobTemplate: "testing/template")
         }
     }
 }
-
-def BaseJobs = "${params.BaseJobs}"
-def PlatformsJobs = "${params.PlatformsJobs}"
-println "PlatformsJobs1: ${PlatformsJobs}"
-println "BaseJobs1: ${BaseJobs}"
 
 def countBaseJobs = BaseJobs.size()
 def countPlatformsJobs = PlatformsJobs.size()
