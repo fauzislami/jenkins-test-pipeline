@@ -14,8 +14,8 @@ node {
             def varsFile = load 'listOfJobs.groovy'
             println UE4_27BaseJobs
             println UE4_27PlatformsJobs
-            getExistingJobs(jobsToTrigger: varsFile.UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: varsFile.UE4_27PlatformsJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
