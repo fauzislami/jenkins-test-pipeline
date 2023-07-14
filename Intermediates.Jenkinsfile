@@ -5,6 +5,36 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
+node {
+    stage("Load Variables") {
+        checkout scm
+        script {
+            def varsFile = load 'listOfJobs.groovy'
+            def BaseJobs = "${params.BaseJobs}"
+            def PlatformsJobs = "${params.PlatformsJobs}"
+            println "PlatformsJobs1: ${PlatformsJobs}"
+            println "BaseJobs1: ${BaseJobs}"
+            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
+        }
+    }
+}
+
+def countBaseJobs = BaseJobs.size()
+def countPlatformsJobs = PlatformsJobs.size()
+def parallelBaseJobs = [:]
+def parallelPlatformsJobs = [:]
+
+for (def i = 0; i < countBaseJobs; i++) {
+    def jobParams = BaseJobs[i]
+    parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
+}
+
+for (def i = 0; i < countPlatformsJobs; i++) {
+    def jobParams = PlatformsJobs[i]
+    parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
+}
+
 def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
@@ -28,36 +58,6 @@ def stagePlatformsJobs(jobParams) {
             if (buildResult != 'SUCCESS') {
                 error "${jobParams.job} failed"
                 //notify via slack or email
-            }
-        }
-    }
-}
-
-node {
-    stage("Load Variables") {
-        checkout scm
-        script {
-            def varsFile = load 'listOfJobs.groovy'
-            def BaseJobs = "${params.BaseJobs}"
-            def PlatformsJobs = "${params.PlatformsJobs}"
-            println "PlatformsJobs1: ${PlatformsJobs}"
-            println "BaseJobs1: ${BaseJobs}"
-            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
-
-            def countBaseJobs = BaseJobs.size()
-            def countPlatformsJobs = PlatformsJobs.size()
-            def parallelBaseJobs = [:]
-            def parallelPlatformsJobs = [:]
-
-            for (def i = 0; i < countBaseJobs; i++) {
-                def jobParams = BaseJobs[i]
-                parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
-            }
-
-            for (def i = 0; i < countPlatformsJobs; i++) {
-                def jobParams = PlatformsJobs[i]
-                parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
             }
         }
     }
