@@ -9,13 +9,26 @@ parameters {
 //def BaseJobs = "${params.BaseJobs}"
 //def PlatformsJobs = "${params.PlatformsJobs}"
 
+def convertToMap(value) {
+    def map = [:]
+    if (value) {
+        value.split(',').each { entry ->
+            def keyValue = entry.trim().split(':')
+            map[keyValue[0].trim()] = keyValue[1].trim()
+        }
+    }
+    return map
+}
+
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            getExistingJobs(jobsToTrigger: params.BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: params.PlatformsJobs, jobTemplate: "testing/template")
+            def baseJobsMap = convertToMap(params.BaseJobs)
+            def platformsJobsMap = convertToMap(params.PlatformsJobs)
+            getExistingJobs(jobsToTrigger: baseJobsMap, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: platformsJobsMap, jobTemplate: "testing/template")
         }
     }
 }
