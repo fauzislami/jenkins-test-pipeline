@@ -6,16 +6,16 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
-//def BaseJobs = "${params.BaseJobs}"
-//def PlatformsJobs = "${params.PlatformsJobs}"
+def BaseJobs = ${params.BaseJobs}
+def PlatformsJobs = ${params.PlatformsJobs}
 
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
