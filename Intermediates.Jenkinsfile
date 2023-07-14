@@ -1,20 +1,19 @@
 @Library('MyTestLibrary') _
 
-def BaseJobs
-def PlatformsJobs
 
 parameters {
     string(name: 'BaseJobs', defaultValue: '', description: '')
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
+def BaseJobs = "${params.BaseJobs}"
+def PlatformsJobs = "${params.PlatformsJobs}"
+
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            BaseJobs = "${params.BaseJobs}"
-            PlatformsJobs = "${params.PlatformsJobs}"
             getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
