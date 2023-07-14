@@ -13,8 +13,8 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            BaseJobs = "${params.BaseJobs}".split(',')
-            PlatformsJobs = "${params.PlatformsJobs}".split(',')
+            BaseJobs = "${params.BaseJobs}"
+            PlatformsJobs = "${params.PlatformsJobs}"
             getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
