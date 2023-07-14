@@ -15,10 +15,8 @@ node {
             def BaseJobs = UE4_27BaseJobs
             def PlatformsJobs = UE4_27PlatformsJobs
 
-            println BaseJobs
-            println PlatformsJobs
-            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
