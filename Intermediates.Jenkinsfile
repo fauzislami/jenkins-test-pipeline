@@ -34,7 +34,8 @@ node {
         }
     }
 }
-
+println "baseJobs: ${params.BaseJobs}"
+println "platformsJobs: ${params.PlatformsJobs}"
 //def countBaseJobs = UE4_27BaseJobs.size()
 //def countPlatformsJobs = UE4_27PlatformsJobs.size()
 def countBaseJobs = baseJobsMap.size()
