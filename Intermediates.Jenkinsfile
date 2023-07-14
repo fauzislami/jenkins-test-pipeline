@@ -6,9 +6,6 @@ parameters {
     string(name: 'PlatformsJobs', defaultValue: '', description: '')
 }
 
-//def BaseJobs = "${params.BaseJobs}"
-//def PlatformsJobs = "${params.PlatformsJobs}"
-
 def convertToMap(value) {
     def map = [:]
     if (value) {
@@ -36,20 +33,20 @@ node {
     }
 }
 
-//def countBaseJobs = BaseJobs.size()
-//def countPlatformsJobs = PlatformsJobs.size()
-def countBaseJobs = UE4_27BaseJobs.size()
-def countPlatformsJobs = UE4_27PlatformsJobs.size()
+//def countBaseJobs = UE4_27BaseJobs.size()
+//def countPlatformsJobs = UE4_27PlatformsJobs.size()
+def countBaseJobs = baseJobsMap.size()
+def countPlatformsJobs = platformsJobsMap.size()
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
 for (def i = 0; i < countBaseJobs; i++) {
-    def jobParams = UE4_27BaseJobs[i]
+    def jobParams = baseJobsMap[i]
     parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
 }
 
 for (def i = 0; i < countPlatformsJobs; i++) {
-    def jobParams = UE4_27PlatformsJobs[i]
+    def jobParams = platformsJobsMap[i]
     parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
 }
 
