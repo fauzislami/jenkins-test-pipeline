@@ -27,6 +27,8 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
+            println "baseJobsMap: ${baseJobsMap}"
+            println "platformsJobsMap: ${platformsJobsMap}"
             getExistingJobs(jobsToTrigger: baseJobsMap, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: platformsJobsMap, jobTemplate: "testing/template")
         }
@@ -35,8 +37,6 @@ node {
 
 //def countBaseJobs = UE4_27BaseJobs.size()
 //def countPlatformsJobs = UE4_27PlatformsJobs.size()
-println "baseJobsMap: ${baseJobsMap}"
-println "platformsJobsMap: ${platformsJobsMap}"
 def countBaseJobs = baseJobsMap.size()
 def countPlatformsJobs = platformsJobsMap.size()
 def parallelBaseJobs = [:]
