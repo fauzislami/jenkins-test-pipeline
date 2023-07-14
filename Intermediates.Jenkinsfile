@@ -16,8 +16,8 @@ node {
             def varsFile = load 'listOfJobs.groovy'
             def UE4BaseJobs = "UE${BaseJobs.replace('_','')}"
             def UE4PlatformsJobs = "UE${PlatformsJobs.replace('_','')}"
-            getExistingJobs(jobsToTrigger: UE4BaseJobs + "BaseJobs", jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4PlatformsJobs + "PlatformsJobs", jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4BaseJobs + BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: UE4PlatformsJobs + PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
