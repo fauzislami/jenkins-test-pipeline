@@ -29,8 +29,8 @@ node {
             def varsFile = load 'listOfJobs.groovy'
             println "baseJobsMap: ${baseJobsMap}"
             println "platformsJobsMap: ${platformsJobsMap}"
-            getExistingJobs(jobsToTrigger: baseJobsMap, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: platformsJobsMap, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: params.BaseJobs, jobTemplate: "testing/template")
+            getExistingJobs(jobsToTrigger: params.PlatformsJobs, jobTemplate: "testing/template")
         }
     }
 }
