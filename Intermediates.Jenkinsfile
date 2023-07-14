@@ -22,13 +22,14 @@ def convertToMap(value) {
     return map
 }
 
+def baseJobsMap = convertToMap(params.BaseJobs)
+def platformsJobsMap = convertToMap(params.PlatformsJobs)
+
 node {
     stage("Load Variables") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            def baseJobsMap = convertToMap(params.BaseJobs)
-            def platformsJobsMap = convertToMap(params.PlatformsJobs)
             getExistingJobs(jobsToTrigger: baseJobsMap, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: platformsJobsMap, jobTemplate: "testing/template")
         }
