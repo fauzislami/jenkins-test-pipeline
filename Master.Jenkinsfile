@@ -6,22 +6,22 @@
             parallel {
                 stage('Intermediate-ue4_27') {
                     steps {
-                        build job: 'testing/Intermediates/Intermediate-ue4_27-new', parameters: [string(name: 'BaseJobs', value: 'UE4_27BaseJobs'),  string(name: 'PlatformsJobs', value: 'UE4_27PlatformsJobs')], wait: true
+                        build job: 'testing/Intermediates/Intermediate-ue4_27-new', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
                     }
                 }
                 stage('Intermediate-ue5_0') {
                     steps {
-                        build job: 'testing/Intermediates/Intermediate-ue5_0-new', parameters: [string(name: 'BaseJobs', value: 'UE5_0BaseJobs'),  string(name: 'PlatformsJobs', value: 'UE5_0PlatformsJobs')], wait: true
+                        build job: 'testing/Intermediates/Intermediate-ue5_0-new', parameters: [string(name: 'UEVersion', value: '5.0')], wait: true
                     }
                 }
                 stage('Intermediate-ue5_1') {
                     steps {
-                        build job: 'testing/Intermediates/Intermediate-ue5_1-new', parameters: [string(name: 'BaseJobs', value: 'UE5_1BaseJobs'),  string(name: 'PlatformsJobs', value: 'UE5_1PlatformsJobs')], wait: true
+                        build job: 'testing/Intermediates/Intermediate-ue5_1-new', parameters: [string(name: 'UEVersion', value: '5.1')], wait: true
                     }
                 }
                 stage('Intermediate-ue5_2') {
                     steps {
-                        build job: 'testing/Intermediates/Intermediate-ue5_2-new', parameters: [string(name: 'BaseJobs', value: 'UE5_2BaseJobs'),  string(name: 'PlatformsJobs', value: 'UE5_2PlatformsJobs')], wait: true
+                        build job: 'testing/Intermediates/Intermediate-ue5_2-new', parameters: [string(name: 'UEVersion', value: '5.2')], wait: true
                     }
                 }
           }
