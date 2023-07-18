@@ -30,8 +30,10 @@ listOfMaps.each { map ->
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
 
-    println (countBaseJobs)
-    println (countPlatformsJobs)
+    println countBaseJobs
+    println countPlatformsJobs
+    println map.baseJobInMap[0]
+    println map.platformJobInMap[0]
     // def parallelBaseJobs = [:]
     // def parallelPlatformsJobs = [:]
 
