@@ -15,6 +15,34 @@ node {
     }
 }
 
+def stageBaseJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
+
+def stagePlatformsJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
+
 def listOfMaps = [
   [baseJobInMap: UE4_27BaseJobs, platformJobInMap: UE4_27PlatformsJobs, UEVersion: '4.27'],
   [baseJobInMap: UE5_0BaseJobs, platformJobInMap: UE5_0PlatformsJobs, UEVersion: '5.0'],
@@ -24,59 +52,25 @@ def listOfMaps = [
 
 listOfMaps.each { map ->
   if (map.UEVersion == params.UEVersion) {
-    println(map.baseJobInMap)
-    println(map.platformJobInMap)
 
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
+    def parallelBaseJobs = [:]
+    def parallelPlatformsJobs = [:]
 
-    println countBaseJobs
-    println countPlatformsJobs
-    println map.baseJobInMap[0]
-    println map.platformJobInMap[0]
-    // def parallelBaseJobs = [:]
-    // def parallelPlatformsJobs = [:]
+    for (def i = 0; i < countBaseJobs; i++) {
+        def jobParams = map.baseJobInMap[i]
+        println jobParams
+        parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
+    }
 
-    // for (def i = 0; i < countBaseJobs; i++) {
-    //     def jobParams = map.baseJobInMap[i]
-    //     parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
-    // }
-
-    // for (def i = 0; i < countPlatformsJobs; i++) {
-    //     def jobParams = map.platformJobInMap[i]
-    //     parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
-    // }
+    for (def i = 0; i < countPlatformsJobs; i++) {
+        def jobParams = map.platformJobInMap[i]
+        println jobParams
+        parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
+    }
   }
 }
-
-// def stageBaseJobs(jobParams) {
-//     return {
-//         stage("stage: ${jobParams.job}") {
-//             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-//             def buildResult = triggeredJobs.getResult()
-
-//             if (buildResult != 'SUCCESS') {
-//                 error "${jobParams.job} failed"
-//                 //notify via slack or email
-//             }
-//         }
-//     }
-// }
-
-// def stagePlatformsJobs(jobParams) {
-//     return {
-//         stage("stage: ${jobParams.job}") {
-//             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-//             def buildResult = triggeredJobs.getResult()
-
-//             if (buildResult != 'SUCCESS') {
-//                 error "${jobParams.job} failed"
-//                 //notify via slack or email
-//             }
-//         }
-//     }
-// }
-
 
 
 // pipeline {
