@@ -38,6 +38,7 @@ def listOfMaps = [
 ]
 
 listOfMaps.each { map ->
+  println params.UEVersion
   if (map.UEVersion == params.UEVersion) {
 
     node {
