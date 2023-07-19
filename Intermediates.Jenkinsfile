@@ -68,14 +68,14 @@ node {
                 [baseJobInMap: UE5_1BaseJobs, platformJobInMap: UE5_1PlatformsJobs, UEVersion: "5.1"],
                 [baseJobInMap: UE5_2BaseJobs, platformJobInMap: UE5_2PlatformsJobs, UEVersion: "5.2"],
                 ]
-            def countBaseJobs = map.baseJobInMap.size()
-            def countPlatformsJobs = map.platformJobInMap.size()
 
             listOfMaps.each { map -> 
                 if (map.UEVersion == params.UEVersion) {
                     getExistingJobs(jobsToTrigger: map.baseJobInMap, jobTemplate: "testing/template")
                     getExistingJobs(jobsToTrigger: map.platformJobInMap, jobTemplate: "testing/template")
                     
+                    def countBaseJobs = map.baseJobInMap.size()
+                    def countPlatformsJobs = map.platformJobInMap.size()
                     for (def i = 0; i < countBaseJobs; i++) {
                         def jobParams = map.baseJobInMap[i]
                         parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
