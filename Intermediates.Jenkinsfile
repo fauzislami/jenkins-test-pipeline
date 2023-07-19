@@ -4,17 +4,6 @@ parameters {
     string(name: 'UEVersion', defaultValue: '', description: '')
 }
 
-node {
-    stage("Load Variables") {
-        checkout scm
-        script {
-            def varsFile = load 'listOfJobs.groovy'
-            getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
-            getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
-        }
-    }
-}
-
 def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
@@ -66,6 +55,17 @@ listOfMaps.each { map ->
         parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
     }
   }
+
+    node {
+        stage("Load Variables") {
+            checkout scm
+            script {
+                def varsFile = load 'listOfJobs.groovy'
+                getExistingJobs(jobsToTrigger: map.baseJobInMap, jobTemplate: "testing/template")
+                getExistingJobs(jobsToTrigger: map.platformJobInMap, jobTemplate: "testing/template")
+            }
+        }
+    }
 }
 
 
