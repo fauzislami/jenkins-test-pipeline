@@ -50,6 +50,8 @@ def listOfMaps = [
 
 listOfMaps.each { map ->
   if (map.UEVersion == params.UEVersion) {
+    println("${map.baseJobInMap}")
+    println("${map.platformJobInMap}")
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
     def parallelBaseJobs = [:]
