@@ -31,61 +31,36 @@ parameters {
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
-// def stageBaseJobs(jobParams) {
-//     return {
-//         stage("stage: ${jobParams.job}") {
-//             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-//             def buildResult = triggeredJobs.getResult()
-//             if (buildResult != 'SUCCESS') {
-//                 error "${jobParams.job} failed"
-//                 //notify via slack or email
-//             }
-//         }
-//     }
-// }
+def stageBaseJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
 
-// def stagePlatformsJobs(jobParams) {
-//     return {
-//         stage("stage: ${jobParams.job}") {
-//             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-//             def buildResult = triggeredJobs.getResult()
-//             if (buildResult != 'SUCCESS') {
-//                 error "${jobParams.job} failed"
-//                 //notify via slack or email
-//             }
-//         }
-//     }
-// }
+def stagePlatformsJobs(jobParams) {
+    return {
+        stage("stage: ${jobParams.job}") {
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def buildResult = triggeredJobs.getResult()
+            if (buildResult != 'SUCCESS') {
+                error "${jobParams.job} failed"
+                //notify via slack or email
+            }
+        }
+    }
+}
 
 node {
     stage("Load Variables") {
         checkout scm
         script {
-            def stageBaseJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
-                    }
-                }
-            }
-
-            def stagePlatformsJobs(jobParams) {
-                return {
-                    stage("stage: ${jobParams.job}") {
-                        def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
-                        def buildResult = triggeredJobs.getResult()
-                        if (buildResult != 'SUCCESS') {
-                            error "${jobParams.job} failed"
-                            //notify via slack or email
-                        }
-                    }
-                }
-            }
             def varsFile = load 'listOfJobs.groovy'
             def listOfMaps = [
                 [baseJobInMap: UE4_27BaseJobs, platformJobInMap: UE4_27PlatformsJobs, UEVersion: "4.27"],
