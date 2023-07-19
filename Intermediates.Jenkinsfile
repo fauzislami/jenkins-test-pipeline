@@ -57,7 +57,7 @@ listOfMaps.each { map ->
 }
 
 listOfMaps.each { map ->
-    if (map.UEVersion == params.UEVersion) {
+    if (map.UEVersion == "${params.UEVersion}") {
         node {
             stage("Load Variables") {
                 checkout scm
