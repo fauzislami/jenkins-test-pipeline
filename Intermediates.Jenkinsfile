@@ -9,8 +9,6 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            println map.baseJobInMap
-            println map.platformJobInMap
             getExistingJobs(jobsToTrigger: UE4_27BaseJobs, jobTemplate: "testing/template")
             getExistingJobs(jobsToTrigger: UE4_27PlatformsJobs, jobTemplate: "testing/template")
         }
