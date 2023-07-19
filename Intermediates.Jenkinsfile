@@ -54,8 +54,6 @@ listOfMaps.each { map ->
         def jobParams = map.platformJobInMap[i]
         parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
     }
-  }
-
     node {
         stage("Load Variables") {
             checkout scm
@@ -66,6 +64,8 @@ listOfMaps.each { map ->
             }
         }
     }
+  }
+
 }
 
 
