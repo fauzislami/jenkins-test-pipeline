@@ -15,6 +15,9 @@ node {
     }
 }
 
+def parallelBaseJobs = [:]
+def parallelPlatformsJobs = [:]
+
 def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
@@ -54,8 +57,6 @@ listOfMaps.each { map ->
     println("${map.platformJobInMap}")
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
-    def parallelBaseJobs = [:]
-    def parallelPlatformsJobs = [:]
 
     for (def i = 0; i < countBaseJobs; i++) {
         def jobParams = map.baseJobInMap[i]
