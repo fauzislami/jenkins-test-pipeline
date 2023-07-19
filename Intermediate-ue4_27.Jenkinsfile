@@ -19,13 +19,11 @@ def parallelUE4_27PlatformsJobs = [:]
 for (def i = 0; i < countUE4_27BaseJobs; i++) {
     def jobParams = UE4_27BaseJobs[i]
     parallelUE4_27BaseJobs[jobParams.job] = stageUE4_27BaseJobs(jobParams)
-    println stageUE4_27BaseJobs(jobParams)
 }
 
 for (def i = 0; i < countUE4_27PlatformsJobs; i++) {
     def jobParams = UE4_27PlatformsJobs[i]
     parallelUE4_27PlatformsJobs[jobParams.job] = stageUE4_27PlatformsJobs(jobParams)
-    println stageUE4_27PlatformsJobs(jobParams)
 }
 
 def stageUE4_27BaseJobs(jobParams) {
