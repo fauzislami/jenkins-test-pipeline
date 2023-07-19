@@ -73,29 +73,29 @@ listOfMaps.each { map ->
 }
 
 
-// pipeline {
-//     agent any
-//     stages {
-//         stage('Base Jobs') {
-//             steps {
-//                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-//                     script {
-//                         parallel parallelBaseJobs
-//                     }                
-//                 }
-//             }
-//         }
-//         stage('Jobs for Other Platforms') {
-//             when {
-//                 expression { currentBuild.result != 'FAILURE' }
-//             }
-//             steps {
-//                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-//                     script {
-//                         parallel parallelPlatformsJobs
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+pipeline {
+    agent any
+    stages {
+        stage('Base Jobs') {
+            steps {
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    script {
+                        parallel parallelBaseJobs
+                    }                
+                }
+            }
+        }
+        stage('Jobs for Other Platforms') {
+            when {
+                expression { currentBuild.result != 'FAILURE' }
+            }
+            steps {
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    script {
+                        parallel parallelPlatformsJobs
+                    }
+                }
+            }
+        }
+    }
+}
