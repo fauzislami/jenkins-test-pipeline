@@ -59,11 +59,13 @@ listOfMaps.each { map ->
     for (def i = 0; i < countBaseJobs; i++) {
         def jobParams = map.baseJobInMap[i]
         parallelBaseJobs[jobParams.job] = stageBaseJobs(jobParams)
+        println parallelBaseJobs
     }
 
     for (def i = 0; i < countPlatformsJobs; i++) {
         def jobParams = map.platformJobInMap[i]
         parallelPlatformsJobs[jobParams.job] = stagePlatformsJobs(jobParams)
+        println parallelPlatformsJobs
     }
   }
 
