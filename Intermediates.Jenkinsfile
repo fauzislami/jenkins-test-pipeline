@@ -49,7 +49,7 @@ def listOfMaps = [
 ]
 
 listOfMaps.each { map ->
-  if (map.UEVersion == ${params.UEVersion}) {
+  if (map.UEVersion == params.UEVersion) {
 
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
