@@ -38,7 +38,7 @@ def listOfMaps = [
 ]
 
 listOfMaps.each { map ->
-  if (map.UEVersion == '4.27') {
+  if (map.UEVersion == params.UEVersion) {
 
     def countBaseJobs = map.baseJobInMap.size()
     def countPlatformsJobs = map.platformJobInMap.size()
@@ -60,7 +60,7 @@ listOfMaps.each { map ->
 }
 
 listOfMaps.each { map ->
-    if (map.UEVersion == '4.27') {
+    if (map.UEVersion == params.UEVersion) {
         node {
             stage("Load Variables") {
                 checkout scm
