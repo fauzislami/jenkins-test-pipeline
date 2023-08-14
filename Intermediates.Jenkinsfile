@@ -81,7 +81,8 @@ pipeline {
         }
         stage('Jobs for Other Platforms') {
             when {
-                expression { currentBuild.result = 'SUCCESS' }
+//                expression { currentBuild.result = 'SUCCESS' }
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
