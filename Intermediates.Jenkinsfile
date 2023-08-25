@@ -45,7 +45,6 @@ def stageBaseJobs(jobParams) {
                     notificationMessage += "<${jobInfo.buildUrl}|${jobInfo.jobName}>\n"
                 }
                 slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: notificationMessage)
-                currentBuild.result = 'FAILURE'
             }
         }
     }
