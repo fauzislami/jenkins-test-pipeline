@@ -7,11 +7,21 @@ parameters {
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
+def waitForCompletion(job) {
+    timeout(time: 1, unit: 'HOURS') {
+        // Poll the job until it completes
+        while (!job.isComplete()) {
+            sleep time: 10, unit: 'SECONDS'
+        }
+    }
+}
+
 def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
             def buildResult = triggeredJobs.getResult()
+            waitForCompletion triggeredJobs
             //println "Build result for ${jobParams.job}: ${buildResult}"
             println "${buildResult}"
             if (!buildResult) {
