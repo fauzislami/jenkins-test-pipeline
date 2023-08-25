@@ -13,8 +13,8 @@ def stageBaseJobs(jobParams) {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
             def buildResult = triggeredJobs.getResult()
             if (buildResult != 'SUCCESS') {
+                slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
                 error "${jobParams.job} failed"
-                //notify via slack or email
             }
         }
     }
@@ -26,8 +26,8 @@ def stagePlatformsJobs(jobParams) {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
             def buildResult = triggeredJobs.getResult()
             if (buildResult != 'SUCCESS') {
+                slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
                 error "${jobParams.job} failed"
-                //notify via slack or email
             }
         }
     }
