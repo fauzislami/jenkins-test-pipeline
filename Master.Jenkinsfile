@@ -2,48 +2,42 @@ pipeline {
     agent any
 
     stages {
-        stage('Triggering Intermediate Jobs') {
+        stage('Triggering Base Jobs') {
             steps {
                 script {
                     def failedJobs = []
 
-                    def buildUrl = { jobName, buildNumber ->
-                        return "${env.BUILD_URL}${jobName}/${buildNumber}/"
+                    def loadJobList = load 'listOfJobs.groovy'
+
+                    def triggerBaseJobs = { baseJobs, ueVersion ->
+                        baseJobs.each { baseJob ->
+                            try {
+                                def jobName = baseJob.job
+                                def params = baseJob.params + [string(name: 'UEVersion', value: ueVersion)]
+                                build job: jobName, parameters: params, wait: true
+                            } catch (Exception e) {
+                                failedJobs.add("[${ueVersion}] ${baseJob.job}")
+                            }
+                        }
                     }
 
                     parallel(
-                        "Intermediate-ue4_27": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue4_27](${buildUrl('Intermediate-ue4_27', currentBuild.number)})")
-                            }
+                        "UE4.27": {
+                            triggerBaseJobs(loadJobList.UE4_27BaseJobs, '4.27')
                         },
-                        "Intermediate-ue5_0": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_0', parameters: [string(name: 'UEVersion', value: '5.0')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_0](${buildUrl('Intermediate-ue5_0', currentBuild.number)})")
-                            }
+                        "UE5.0": {
+                            triggerBaseJobs(loadJobList.UE5_0BaseJobs, '5.0')
                         },
-                        "Intermediate-ue5_1": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_1', parameters: [string(name: 'UEVersion', value: '5.1')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_1](${buildUrl('Intermediate-ue5_1', currentBuild.number)})")
-                            }
+                        "UE5.1": {
+                            triggerBaseJobs(loadJobList.UE5_1BaseJobs, '5.1')
                         },
-                        "Intermediate-ue5_2": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_2', parameters: [string(name: 'UEVersion', value: '5.2')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_2](${buildUrl('Intermediate-ue5_2', currentBuild.number)})")
-                            }
+                        "UE5.2": {
+                            triggerBaseJobs(loadJobList.UE5_2BaseJobs, '5.2')
                         }
                     )
 
                     if (!failedJobs.isEmpty()) {
-                        def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
+                        def message = "The following base jobs failed:\n" + failedJobs.join('\n')
                         slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                     }
                 }
