@@ -2,42 +2,39 @@ pipeline {
     agent any
 
     stages {
-        stage('Triggering Base Jobs') {
+        stage('Triggering Intermediate Jobs') {
             steps {
                 script {
                     def failedJobs = []
 
-                    def loadJobList = load 'listOfJobs.groovy'
-
-                    def triggerBaseJobs = { baseJobs, ueVersion ->
-                        baseJobs.each { baseJob ->
-                            try {
-                                def jobName = baseJob.job
-                                def params = baseJob.params + [string(name: 'UEVersion', value: ueVersion)]
-                                build job: jobName, parameters: params, wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[${ueVersion}] ${baseJob.job}")
-                            }
-                        }
+                    def buildUrl = { jobName, buildNumber ->
+                        return "${env.BUILD_URL}${jobName}/${buildNumber}/"
                     }
 
-                    parallel(
-                        "UE4.27": {
-                            triggerBaseJobs(loadJobList.UE4_27BaseJobs, '4.27')
-                        },
-                        "UE5.0": {
-                            triggerBaseJobs(loadJobList.UE5_0BaseJobs, '5.0')
-                        },
-                        "UE5.1": {
-                            triggerBaseJobs(loadJobList.UE5_1BaseJobs, '5.1')
-                        },
-                        "UE5.2": {
-                            triggerBaseJobs(loadJobList.UE5_2BaseJobs, '5.2')
-                        }
-                    )
+                    // Load the job list from the listOfJobs.groovy file
+                    load 'listOfJobs.groovy'
+
+                    // Consolidate the base jobs for each UE version
+                    def ueVersions = ['UE4_27', 'UE5_0', 'UE5_1', 'UE5_2']
+                    def baseJobs = [:]
+                    ueVersions.each { version ->
+                        baseJobs[version] = eval(version + 'BaseJobs')
+                    }
+
+                    parallel baseJobs.collectEntries { version, jobs ->
+                        ["Intermediate-$version": {
+                            try {
+                                jobs.each { jobData ->
+                                    build job: jobData.job, parameters: jobData.params, wait: true
+                                }
+                            } catch (Exception e) {
+                                failedJobs.add("[Intermediate-$version](${buildUrl("Intermediate-$version", currentBuild.number)})")
+                            }
+                        }]
+                    }
 
                     if (!failedJobs.isEmpty()) {
-                        def message = "The following base jobs failed:\n" + failedJobs.join('\n')
+                        def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
                         slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                     }
                 }
