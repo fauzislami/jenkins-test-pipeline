@@ -8,16 +8,42 @@ def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 
 def stageBaseJobs(jobParams) {
+//     return {
+//         stage("stage: ${jobParams.job}") {
+//             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: false, wait: true
+//             def buildResult = triggeredJobs.getResult()
+
+//             //println "${buildResult}"
+//             if (buildResult == 'FAILURE') {
+//                 def buildUrl = "${triggeredJobs.getAbsoluteUrl()}"
+//                 slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: "Job ${jobParams.job} is <failed>. <${buildUrl}|See here>")
+//                 error "${jobParams.job} failed"
+//             }
+//         }
+//     }
+// }
+
+def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: false, wait: true
             def buildResult = triggeredJobs.getResult()
 
-            //println "${buildResult}"
             if (buildResult == 'FAILURE') {
                 def buildUrl = "${triggeredJobs.getAbsoluteUrl()}"
-                slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: "Job ${jobParams.job} is <failed>. <${buildUrl}|See here>")
-                error "${jobParams.job} failed"
+                failedJobs << [jobName: jobParams.job, buildUrl: buildUrl]
+            }
+        }
+    }
+    post{
+        always {
+            if (failedJobs) {
+                def notificationMessage = "The following jobs failed:\n"
+                failedJobs.each { jobInfo ->
+                    notificationMessage += "<${jobInfo.buildUrl}|${jobInfo.jobName}>\n"
+                }
+                slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: notificationMessage)
+                error "Some jobs failed"
             }
         }
     }
