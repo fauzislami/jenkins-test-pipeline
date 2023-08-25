@@ -15,7 +15,7 @@ def stageBaseJobs(jobParams) {
 
             //println "${buildResult}"
             if (buildResult == 'FAILURE') {
-                slackSend(channel: "#jenkins-notif-test", message: "Job ${jobParams.job} is failed. ${env.BUILD_URL}")
+                slackSend(channel: "#jenkins-notif-test", message: "Job ${jobParams.job} is failed. ${jobParams.job.env.BUILD_URL}")
                 error "${jobParams.job} failed"
             }
         }
