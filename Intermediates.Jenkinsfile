@@ -8,7 +8,7 @@ def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
 def failedJobs = []
 
-def stageBaseJobs(jobParams, failedJobs) {
+def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: false, wait: true
