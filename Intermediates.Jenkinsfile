@@ -10,12 +10,12 @@ def parallelPlatformsJobs = [:]
 def stageBaseJobs(jobParams) {
     return {
         stage("stage: ${jobParams.job}") {
-            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
+            def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: false
             def buildResult = triggeredJobs.getResult()
-            //println "Build result for ${jobParams.job}: ${buildResult}"
+
             println "${buildResult}"
             if (!buildResult) {
-                //slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
+                //slackSend(channel: "#jenkins-notif-test", message: "Job ${jobParams.job} is failed")
                 println "=====faillll====="
                 //error "${jobParams.job} failed"
             }
