@@ -6,7 +6,7 @@ parameters {
 
 def parallelBaseJobs = [:]
 def parallelPlatformsJobs = [:]
-def failedJobs = []
+env.FAILED_JOBS = ""
 
 def stageBaseJobs(jobParams) {
     return {
@@ -16,9 +16,7 @@ def stageBaseJobs(jobParams) {
 
             //println "${buildResult}"
             if (buildResult == 'FAILURE') {
-                failedJobs.add(jobParams.job)
-                //def buildUrl = "${triggeredJobs.getAbsoluteUrl()}"
-                //slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: "Job ${jobParams.job} is <failed>. <${buildUrl}|See here>")
+                env.FAILED_JOBS += jobParams.job + ","
                 error "${jobParams.job} failed"
             }
         }
@@ -101,6 +99,7 @@ pipeline {
     post {
         always {
             script {
+                def failedJobs = env.FAILED_JOBS.tokenize(',').findAll { it }
                 if (failedJobs) {
                     def failedJobsList = failedJobs.join(', ')
                     slackSend(
