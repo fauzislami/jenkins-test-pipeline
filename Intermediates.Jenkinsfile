@@ -14,9 +14,9 @@ def stageBaseJobs(jobParams) {
             def buildResult = triggeredJobs.getResult()
             //println "Build result for ${jobParams.job}: ${buildResult}"
             println "${buildResult}"
-            if (buildResult != 'FAILURE') {
+            if (buildResult == 'FAILURE') {
                 //slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
-                println "=====helloooooo success====="
+                println "=====faillll====="
                 //error "${jobParams.job} failed"
             }
         }
