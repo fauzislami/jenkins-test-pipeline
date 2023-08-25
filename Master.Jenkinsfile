@@ -8,37 +8,29 @@ pipeline {
                     def failedJobs = []
 
                     def buildUrl = { jobName, buildNumber ->
-                        return "${env.BUILD_URL}${jobName}/${buildNumber}/"
+                        return "${env.JENKINS_URL}job/${jobName}/${buildNumber}/"
+                    }
+
+                    def triggerIntermediateJob = { jobName, ueVersion ->
+                        try {
+                            build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], wait: true
+                        } catch (Exception e) {
+                            failedJobs.add("[${jobName}](${buildUrl("testing/Intermediates/${jobName}", currentBuild.number)})")
+                        }
                     }
 
                     parallel(
                         "Intermediate-ue4_27": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue4_27](${buildUrl('Intermediate-ue4_27', currentBuild.number)})")
-                            }
+                            triggerIntermediateJob("Intermediate-ue4_27", '4.27')
                         },
                         "Intermediate-ue5_0": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_0', parameters: [string(name: 'UEVersion', value: '5.0')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_0](${buildUrl('Intermediate-ue5_0', currentBuild.number)})")
-                            }
+                            triggerIntermediateJob("Intermediate-ue5_0", '5.0')
                         },
                         "Intermediate-ue5_1": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_1', parameters: [string(name: 'UEVersion', value: '5.1')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_1](${buildUrl('Intermediate-ue5_1', currentBuild.number)})")
-                            }
+                            triggerIntermediateJob("Intermediate-ue5_1", '5.1')
                         },
                         "Intermediate-ue5_2": {
-                            try {
-                                build job: 'testing/Intermediates/Intermediate-ue5_2', parameters: [string(name: 'UEVersion', value: '5.2')], wait: true
-                            } catch (Exception e) {
-                                failedJobs.add("[Intermediate-ue5_2](${buildUrl('Intermediate-ue5_2', currentBuild.number)})")
-                            }
+                            triggerIntermediateJob("Intermediate-ue5_2", '5.2')
                         }
                     )
 
