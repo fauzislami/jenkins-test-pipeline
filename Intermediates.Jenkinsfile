@@ -12,7 +12,7 @@ def stageBaseJobs(jobParams) {
         stage("stage: ${jobParams.job}") {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: true, wait: true
             def buildResult = triggeredJobs.getResult()
-            echo $buildResult
+            println "Build result for ${jobParams.job}: ${buildResult}
             if (buildResult != 'SUCCESS') {
                 slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
                 //error "${jobParams.job} failed"
@@ -28,8 +28,8 @@ def stagePlatformsJobs(jobParams) {
             def buildResult = triggeredJobs.getResult()
             echo $buildResult
             if (buildResult != 'SUCCESS') {
-                slackSend(channel: "#jenkins-notif-test", message: "Job ${env.JOB_NAME} is failed")
-                //error "${jobParams.job} failed"
+                error "${jobParams.job} failed"
+                //send notif to slack or email
             }
         }
     }
