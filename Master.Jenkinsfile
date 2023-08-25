@@ -11,17 +11,10 @@ pipeline {
                         return "${env.BUILD_URL}${jobName}/${buildNumber}/"
                     }
 
-                    // Load the job list from the listOfJobs.groovy file
-                    load 'listOfJobs.groovy'
+                    // Load the job definitions from the listOfJobs.groovy file
+                    def jobDefinitions = load 'listOfJobs.groovy'
 
-                    // Consolidate the base jobs for each UE version
-                    def ueVersions = ['UE4_27', 'UE5_0', 'UE5_1', 'UE5_2']
-                    def baseJobs = [:]
-                    ueVersions.each { version ->
-                        baseJobs[version] = eval(version + 'BaseJobs')
-                    }
-
-                    parallel baseJobs.collectEntries { version, jobs ->
+                    parallel jobDefinitions.collectEntries { version, jobs ->
                         ["Intermediate-$version": {
                             try {
                                 jobs.each { jobData ->
