@@ -11,20 +11,36 @@ pipeline {
                         return "${env.BUILD_URL}${jobName}/${buildNumber}/"
                     }
 
-                    // Load the job definitions from the listOfJobs.groovy file
-                    def jobDefinitions = load 'listOfJobs.groovy'
-
-                    parallel jobDefinitions.collectEntries { version, jobs ->
-                        ["Intermediate-$version": {
+                    parallel(
+                        "Intermediate-ue4_27": {
                             try {
-                                jobs.each { jobData ->
-                                    build job: jobData.job, parameters: jobData.params, wait: true
-                                }
+                                build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
                             } catch (Exception e) {
-                                failedJobs.add("[Intermediate-$version](${buildUrl("Intermediate-$version", currentBuild.number)})")
+                                failedJobs.add("[Intermediate-ue4_27](${buildUrl('Intermediate-ue4_27', currentBuild.number)})")
                             }
-                        }]
-                    }
+                        },
+                        "Intermediate-ue5_0": {
+                            try {
+                                build job: 'testing/Intermediates/Intermediate-ue5_0', parameters: [string(name: 'UEVersion', value: '5.0')], wait: true
+                            } catch (Exception e) {
+                                failedJobs.add("[Intermediate-ue5_0](${buildUrl('Intermediate-ue5_0', currentBuild.number)})")
+                            }
+                        },
+                        "Intermediate-ue5_1": {
+                            try {
+                                build job: 'testing/Intermediates/Intermediate-ue5_1', parameters: [string(name: 'UEVersion', value: '5.1')], wait: true
+                            } catch (Exception e) {
+                                failedJobs.add("[Intermediate-ue5_1](${buildUrl('Intermediate-ue5_1', currentBuild.number)})")
+                            }
+                        },
+                        "Intermediate-ue5_2": {
+                            try {
+                                build job: 'testing/Intermediates/Intermediate-ue5_2', parameters: [string(name: 'UEVersion', value: '5.2')], wait: true
+                            } catch (Exception e) {
+                                failedJobs.add("[Intermediate-ue5_2](${buildUrl('Intermediate-ue5_2', currentBuild.number)})")
+                            }
+                        }
+                    )
 
                     if (!failedJobs.isEmpty()) {
                         def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
