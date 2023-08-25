@@ -14,22 +14,14 @@ def stageBaseJobs(jobParams) {
             def triggeredJobs = build job: jobParams.job, parameters: jobParams.params, propagate: false, wait: true
             def buildResult = triggeredJobs.getResult()
 
+            //println "${buildResult}"
             if (buildResult == 'FAILURE') {
-                def buildUrl = "${triggeredJobs.getAbsoluteUrl()}"
-                failedJobs << [jobName: jobParams.job, buildUrl: buildUrl]
-                error "Some jobs failed"
+                failedJobs.add(jobParams.job)
+                //def buildUrl = "${triggeredJobs.getAbsoluteUrl()}"
+                //slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: "Job ${jobParams.job} is <failed>. <${buildUrl}|See here>")
+                error "${jobParams.job} failed"
             }
         }
-    }
-}
-
-def consolidateAndSendNotification(failedJobs) {
-    if (failedJobs) {
-        def notificationMessage = "The following jobs failed:\n"
-        failedJobs.each { jobInfo ->
-            notificationMessage += "<${jobInfo.buildUrl}|${jobInfo.jobName}>\n"
-        }
-        slackSend(channel: "#jenkins-notif-test", color: '#ff0000', message: notificationMessage)
     }
 }
 
@@ -108,7 +100,16 @@ pipeline {
     }
     post {
         always {
-            consolidateAndSendNotification(failedJobs)
+            script {
+                if (failedJobs) {
+                    def failedJobsList = failedJobs.join(', ')
+                    slackSend(
+                        channel: "#jenkins-notif-test",
+                        color: '#ff0000',
+                        message: "The following jobs failed: $failedJobsList"
+                    )
+                }
+            }
         }
     }
 }
