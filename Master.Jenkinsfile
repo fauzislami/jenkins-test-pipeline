@@ -52,7 +52,7 @@ pipeline {
                         if (build) {
                             def buildResult = build.result
                             def buildUrl = build.getAbsoluteUrl()
-                            if (buildResult == "SUCCESS") {
+                            if (buildResult == "FAILURE") {
                                 //def emoji = buildResult == "FAILURE" ? ":white_check_mark:" : ":x:"
                                 def emoji = ":white_check_mark:"
                                 failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
