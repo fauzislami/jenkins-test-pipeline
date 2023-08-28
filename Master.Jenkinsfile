@@ -43,7 +43,7 @@ pipeline {
                 for (groovyFile in groovyFiles) {
                     def ueVersion = groovyFile.tokenize('.')[0]
                     def varsFile = load groovyFile
-                    def allJobs = varsFile.BaseJobs + varsFile.PlatformsJobs
+                    def allJobs = BaseJobs + PlatformsJobs
 
                     for (job in allJobs) {
                         def jobName = job.job
