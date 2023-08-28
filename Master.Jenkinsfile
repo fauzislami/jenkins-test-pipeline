@@ -49,9 +49,11 @@ pipeline {
                     for (job in BaseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
-                        if (build.result == 'FAILURE') {
+                        if (build) {
                             printBuildResult(build)
-                            failedJobs.add("[${jobName}]")
+                            if (build.result == 'FAILURE) {
+                                failedJobs.add("[${jobName}]")
+                            }
                         } else {
                             echo "No builds found for job: ${jobName}"
                         }
