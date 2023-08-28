@@ -6,22 +6,28 @@ pipeline {
             steps {
                 script {
                     def failedJobs = []
-                    def triggerIntermediateJob = { jobName, ueVersion ->
-                        def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
-                        def buildResult = buildInfo.getResult()
-                        def jobUrl = buildInfo.getAbsoluteUrl()
 
-                        if (buildResult == 'FAILURE') {
-                            failedJobs.add("[${jobName}] ${jobUrl}")
-                            //error "${jobName} failed"
-                        } else {
-                            def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
-                            if (job) {
-                                def downstreamJobs = job.getDownstreamProjects()
-                                println "Downstream jobs of ${jobName}: ${downstreamJobs*.fullName}"
+                    def triggerIntermediateJob = { jobName, ueVersion ->
+                        def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
+                    
+                        if (job) {
+                            def latestBuild = job.getLastBuild()
+                            if (latestBuild) {
+                                def downstreamBuilds = latestBuild.getDownstreamBuilds()
+                                def buildResult = latestBuild.getResult()
+                                def jobUrl = latestBuild.getAbsoluteUrl()
+                    
+                                if (buildResult == 'FAILURE') {
+                                    failedJobs.add("[${jobName}] ${jobUrl}")
+                                } else {
+                                    def downstreamJobs = downstreamBuilds.collect { it.project.fullName }
+                                    println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                                }
                             } else {
-                                println "Job not found: ${jobName}"
+                                println "No builds found for job: ${jobName}"
                             }
+                        } else {
+                            println "Job not found: ${jobName}"
                         }
                     }
 
