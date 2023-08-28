@@ -15,7 +15,8 @@ pipeline {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                             //error "${jobName} failed"
                         } else {
-                            def job = Jenkins.instance.getItemByFullName(jobName)
+                            def jobFullName = "testing/Intermediates/${jobName}"
+                            def job = Jenkins.instance.getItemByFullName(jobFullName)
                             if (job) {
                                 def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
                                 println "Downstream jobs of ${jobName}: ${downstreamJobs}"
