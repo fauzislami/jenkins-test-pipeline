@@ -11,21 +11,17 @@ pipeline {
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
-                        def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
-                        def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
-                        println "Downstream jobs of ${jobName}: ${downstreamJobs}"
-                        
-
-                        if (job) {
-                           def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
-                           println "Downstream jobs of ${jobName}: ${downstreamJobs}"
-                        } else {
-                            println "Job not found: ${jobName}"
-                            }
-
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                             //error "${jobName} failed"
+                        } else {
+                            def job = Jenkins.instance.getItemByFullName(jobName)
+                            if (job) {
+                                def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
+                                println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                            } else {
+                                println "Job not found: ${jobName}"
+                            }
                         }
                     }
 
