@@ -52,7 +52,7 @@ pipeline {
                         if (build) {
                             def buildResult = build.result
                             if (buildResult) {
-                                def emoji = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? ":white_check_mark:" : ":x:"
+                                def emoji = buildResult.resultIsBetterOrEqualTo("SUCCESS") ? ":white_check_mark:" : ":x:"
                                 failedJobs.add("[${jobName}] ${buildResult} $emoji")               
                             }
                         } else {
