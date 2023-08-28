@@ -12,27 +12,19 @@ node {
     stage("Retrieve and Print Build Results") {
         checkout scm
         script {
-            def varsFile = load 'UE4_27.groovy'
+            def varsFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy"]
 
-            for (job in BaseJobs) {
-                def jobName = job.job
-                def build = retrieveLatestBuild(jobName)
-                if (build) {
-                    printBuildResult(build)
-                } else {
-                    echo "No builds found for job: ${jobName}"
-                }
-            }
+            for (varsFile in varsFiles) {
+                def varsFile = load varsFile
 
-            def varsFile = load 'UE5_0.groovy'
-
-            for (job in BaseJobs) {
-                def jobName = job.job
-                def build = retrieveLatestBuild(jobName)
-                if (build) {
-                    printBuildResult(build)
-                } else {
-                    echo "No builds found for job: ${jobName}"
+                for (job in BaseJobs) {
+                    def jobName = job.job
+                    def build = retrieveLatestBuild(jobName)
+                    if (build) {
+                        printBuildResult(build)
+                    } else {
+                        echo "No builds found for job: ${jobName}"
+                    }
                 }
             }
         }
