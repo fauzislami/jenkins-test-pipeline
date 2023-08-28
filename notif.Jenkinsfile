@@ -13,12 +13,12 @@ node {
         checkout scm
         script {
             def varsFile4_27 = load 'UE4_27.groovy'
-            def varsFile5_0 = load 'UE5_0.groovy'
-            def varsFile5_1 = load 'UE5_1.groovy'
-            def varsFile5_2 = load 'UE5_2.groovy'
+            //def varsFile5_0 = load 'UE5_0.groovy'
+            //def varsFile5_1 = load 'UE5_1.groovy'
+            //def varsFile5_2 = load 'UE5_2.groovy'
 
-            for (job in BaseJobs.job) {
-                def jobName = job
+            for (job in BaseJobs) {
+                def jobName = job.job
                 def build = retrieveLatestBuild(jobName)
                 if (build) {
                     printBuildResult(build)
