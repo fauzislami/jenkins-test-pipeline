@@ -40,7 +40,7 @@ pipeline {
     post {
         always {
             script {
-                def failedJobs = []
+                def failedJobsByUEVersion = [:]
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
 
                 for (groovyFile in groovyFiles) {
@@ -51,15 +51,19 @@ pipeline {
                         def build = retrieveLatestBuild(jobName)
                         if (build) {
                             printBuildResult(build)
-                            failedJobs.add("[${jobName}]")
+                            def ueVersion = groovyFile.replaceAll("[^0-9]", "_")
+                            failedJobsByUEVersion[ueVersion] ||= []
+                            failedJobsByUEVersion[ueVersion] << "[${jobName}]"
                         } else {
                             echo "No builds found for job: ${jobName}"
                         }
                     }
                 }
-                if (!failedJobs.isEmpty()) {
-                    def message = "The following jobs failed:\n" + failedJobs.join('\n')
-                    slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
+                for (ueVersion, jobsList in failedJobsByUEVersion) {
+                    if (!jobsList.isEmpty()) {
+                        def message = "The following jobs failed for UE version ${ueVersion}:\n" + jobsList.join('\n')
+                        slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
+                    }
                 }
             }
         }
