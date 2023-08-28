@@ -23,6 +23,18 @@ node {
                     echo "No builds found for job: ${jobName}"
                 }
             }
+
+            def varsFile = load 'UE5_0.groovy'
+
+            for (job in BaseJobs) {
+                def jobName = job.job
+                def build = retrieveLatestBuild(jobName)
+                if (build) {
+                    printBuildResult(build)
+                } else {
+                    echo "No builds found for job: ${jobName}"
+                }
+            }
         }
     }
 }
