@@ -12,13 +12,15 @@ pipeline {
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
                         //def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
-
+                        
+                        def di
                         def hi = hudson.model.Hudson.instance
                             hi.getItems(hudson.model.Project).each {project ->
                             println(project.displayName)
-                            def di = project.getDownstreamProjects()
-                            println(di.name)
+                            di = project.getDownstreamProjects()
                         }
+
+                        println(di.name)
 
                         //echo "Last success: ${job.getLastSuccessfulBuild()}"
                         //echo "Last build: ${job.getLastBuild()}"
