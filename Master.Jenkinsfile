@@ -61,7 +61,7 @@ pipeline {
                 }
                 jobsResultsByUE.each { version, results -> 
                     if (!results.isEmpty()) {
-                        combinedMessage += "The following jobs failed for UE ${version}:\n" + results.join('\n') + "\n" + "\n"
+                        combinedMessage += "*THE FOLLOWING JOBS FAILED FOR ${version}:*\n" + results.join('\n') + "\n"
                     }
                 }
                 if (!combinedMessage.isEmpty()) {
