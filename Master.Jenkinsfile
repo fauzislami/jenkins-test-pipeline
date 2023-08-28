@@ -17,6 +17,7 @@ pipeline {
                             hi.getItems(hudson.model.Project).each {project ->
                             println(project.displayName)
                             di = project.getDownstreamProjects()
+                            println(di.name)
                         }
 
                         println "${hi}"
