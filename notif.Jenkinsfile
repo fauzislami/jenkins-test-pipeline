@@ -7,6 +7,14 @@ def printBuildResult(build) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
 }
+node {
+    stage("Load Variables") {
+        checkout scm
+        script {
+            def varsFile = load 'listOfJobs.groovy'
+        }
+    }
+}
 
 pipeline {
     agent any
@@ -15,8 +23,6 @@ pipeline {
         stage('Retrieve and Print Build Results') {
             steps {
                 script {
-                    def varsFile = load 'listOfJobs.groovy'
-
                     for (job in baseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
