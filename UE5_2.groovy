@@ -1,4 +1,4 @@
-UE5_2BaseJobs = [
+baseJobs = [
 //    [job: 'testing/UE5.2/DCL-Sample-Project-UE5.2-Win64-Shipping', params: [string(name: 'city', value: 'bali'), string(name: 'province', value: 'bali')]],
 //    [job: 'testing/UE5.2/DCL-Sample-Project-UE5.2-Win64-Debug', params: [string(name: 'city', value: 'mataram'), string(name: 'province', value: 'west nusa tenggara')]]
 ]
