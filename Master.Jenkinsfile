@@ -13,7 +13,6 @@ pipeline {
 
                         def job = Jenkins.instance.getItemByFullName('testing/Intermediates/Intermediate-ue5_1')
                         echo "Last success: ${job.getLastSuccessfulBuild()}"
-                        echo "All builds: ${job.getBuilds().collect{ it.getNumber()}}"
                         echo "Last build: ${job.getLastBuild()}"
                         echo "Is building: ${job.isBuilding()}"
 
