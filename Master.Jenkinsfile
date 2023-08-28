@@ -6,14 +6,14 @@ pipeline {
             steps {
                 script {
                     def failedJobs = []
-                    def jobUrl
-                    def buildInfo
+
 
                     def triggerIntermediateJob = { jobName, ueVersion ->
-                        try {
-                            buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], wait: true
-                        } catch (Exception e) {
-                            jobUrl = buildInfo.getAbsoluteUrl()
+                        def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], wait: true
+                        def buildResult = buildInfo.getResult()
+                        def jobUrl = buildInfo.getAbsoluteUrl()
+
+                        if (buildResult != 'SUCCESS') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                         }
                     }
