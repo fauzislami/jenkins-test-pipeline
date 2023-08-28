@@ -3,10 +3,10 @@ def retrieveLatestBuild(jobName) {
     return build
 }
 
-def printBuildResult(build) {
-    echo "Job: ${build.project.name}"
-    echo "Build Status: ${build.result}"
-}
+//def printBuildResult(build) {
+//    echo "Job: ${build.project.name}"
+//    echo "Build Status: ${build.result}"
+//}
 
 pipeline {
     agent any
@@ -50,7 +50,8 @@ pipeline {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         def buildResult = build.getResult()
-                        if (buildResult == 'SUCCESS') {
+                        println "${buildResult}"
+                        if (buildResult) {
                             printBuildResult(build)
                             failedJobs.add("[${jobName}]")
                         } else {
