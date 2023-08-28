@@ -27,10 +27,8 @@ pipeline {
 
                     for (job in intermediateJobs) {
                         stage("Trigger ${job.name}") {
-                            steps {
-                                script {
-                                    triggerIntermediateJob(job.name, job.version)
-                                }
+                            script {
+                                triggerIntermediateJob(job.name, job.version)
                             }
                         }
                     }
