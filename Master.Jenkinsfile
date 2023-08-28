@@ -40,6 +40,7 @@ pipeline {
     post {
         always {
             script {
+                def failedJobs = []
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy"]
 
                 for (groovyFile in groovyFiles) {
@@ -48,11 +49,16 @@ pipeline {
                     for (job in BaseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
-                        if (build) {
+                        if (build == 'FAILURE') {
                             printBuildResult(build)
+                            failedJobs.add("[${jobName}]")
                         } else {
                             echo "No builds found for job: ${jobName}"
                         }
+                    }
+                    if (!failedJobs.isEmpty()) {
+                        def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
+                        slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                     }
                 }
             }
