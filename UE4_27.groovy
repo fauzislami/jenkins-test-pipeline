@@ -1,7 +1,7 @@
 //Base Jobs for Win64 only
 BaseJobs = [
-    [job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-Win64-Shipping', params: [string(name: 'city', value: 'jogja'), string(name: 'province', value: 'jogja')]],
-    [job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-Win64-Debug', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]]
+    //[job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-Win64-Shipping', params: [string(name: 'city', value: 'jogja'), string(name: 'province', value: 'jogja')]],
+    //[job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-Win64-Debug', params: [string(name: 'city', value: 'bandung'), string(name: 'province', value: 'west java')]]
 ]
 
 PlatformsJobs = [
