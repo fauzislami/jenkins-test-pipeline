@@ -61,10 +61,9 @@ pipeline {
                 jobsResultsByUE.each { version, results -> 
                     if (!results.isEmpty()) {
                         def message = "The following jobs failed for UE ${version}:\n" + results.join('\n')
-                        slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                     } 
                 }
-
+                slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
             }
         }
     }
