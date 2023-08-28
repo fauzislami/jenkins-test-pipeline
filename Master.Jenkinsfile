@@ -56,10 +56,10 @@ pipeline {
                             echo "No builds found for job: ${jobName}"
                         }
                     }
-                    if (!failedJobs.isEmpty()) {
-                        def message = "The following jobs failed:\n" + failedJobs.join('\n')
-                        slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
-                    }
+                }
+                if (!failedJobs.isEmpty()) {
+                    def message = "The following jobs failed:\n" + failedJobs.join('\n')
+                    slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                 }
             }
         }
