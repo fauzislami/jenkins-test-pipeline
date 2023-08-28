@@ -52,7 +52,7 @@ pipeline {
                         def buildResult = build.getResult()
                         println "${buildResult}"
                         if (buildResult) {
-                            printBuildResult(build)
+                            //printBuildResult(build)
                             failedJobs.add("[${jobName}]")
                         } else {
                             echo "No builds found for job: ${jobName}"
