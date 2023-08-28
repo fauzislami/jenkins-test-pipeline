@@ -3,7 +3,7 @@ def retrieveLatestBuild(jobName) {
     return build
 }
 
-def printBuildResult(build, jobName) {
+def printBuildResult(build, jobName, failedJobs) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
     
