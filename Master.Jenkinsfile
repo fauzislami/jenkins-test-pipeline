@@ -26,13 +26,11 @@ pipeline {
                         ["Intermediate-ue5_2", '5.2']
                     ]
 
-                    parallel (
-                        for (job in intermediateJobs) {
-                            "${job[0]}": {
-                                triggerIntermediateJob(job[0], job[1])
-                            }
-                        }
-                    )
+                    def jobClosures = intermediateJobs.collect { job ->
+                        return { "${job[0]}": { triggerIntermediateJob(job[0], job[1]) } }
+                    }
+
+                    parallel jobClosures
 
                     if (!failedJobs.isEmpty()) {
                         def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
