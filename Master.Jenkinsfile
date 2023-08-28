@@ -13,7 +13,7 @@ pipeline {
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
-                        if (buildResult != 'SUCCESS') {
+                        if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                         }
                     }
