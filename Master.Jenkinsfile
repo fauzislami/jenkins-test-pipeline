@@ -13,7 +13,7 @@ pipeline {
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
-                        listOfTriggeredJobs = buildInfo.getBuilds()
+                        listOfTriggeredJobs.add("[${jobName}] buildInfo.getBuilds()")
                         println "${listOfTriggeredJobs}"
 
                         if (buildResult == 'FAILURE') {
