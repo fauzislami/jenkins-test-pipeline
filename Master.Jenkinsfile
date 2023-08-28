@@ -3,10 +3,6 @@ def retrieveLatestBuild(jobName) {
     return build
 }
 
-//def printBuildResult(build) {
-//    echo "Job: ${build.project.name}"
-//    echo "Build Status: ${build.result}"
-//}
 
 pipeline {
     agent any
@@ -53,7 +49,6 @@ pipeline {
                         def buildUrl = build.getAbsoluteUrl()
                         if (buildResult) {
                             def emoji = buildResult == "FAILURE" ? ":x:" : ":white_check_mark:"
-                            //def emoji = ":x:"
                             failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
                         }
                     }
