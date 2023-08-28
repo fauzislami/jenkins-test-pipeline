@@ -50,7 +50,7 @@ pipeline {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         def buildResult = println "${build.result}"
-                        if (buildResult == 'FAILURE') {
+                        if (buildResult == "FAILURE") {
                             printBuildResult(build)
                             failedJobs.add("[${jobName}]")
                         } else {
