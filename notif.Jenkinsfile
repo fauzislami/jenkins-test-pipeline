@@ -12,7 +12,7 @@ node {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-            for (job in baseJobs) {
+            for (job in UE4_27BaseJobs) {
                 def jobName = job.job
                 def build = retrieveLatestBuild(jobName)
                 if (build) {
