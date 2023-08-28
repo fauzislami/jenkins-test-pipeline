@@ -10,7 +10,7 @@ pipeline {
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
-                        def downstreamJobs = buildInfo.rawBuild.getAction(hudson.model.CauseAction)?.getCauses()?.findAll { it instanceof hudson.model.Cause.UpstreamCause }*.upstreamProject
+                        def downstreamJobs = Jenkins.instance.getItemByFullName(jobName).getDownstreamProjects().collect { it.fullName }
 
                         println "Downstream jobs of ${jobName}: ${downstreamJobs}"
 
