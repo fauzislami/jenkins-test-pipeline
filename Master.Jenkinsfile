@@ -14,7 +14,7 @@ pipeline {
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                             //error "${jobName} failed"
-                        } else {
+                        }
                             def job = Jenkins.instance.getItemByFullName(env.JOB_NAME)
                             if (job) {
                                 def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
@@ -22,7 +22,6 @@ pipeline {
                             } else {
                                 println "Job not found: ${jobName}"
                             }
-                        }
                     }
 
                     parallel(
