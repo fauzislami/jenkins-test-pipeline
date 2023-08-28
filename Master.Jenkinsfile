@@ -28,7 +28,7 @@ pipeline {
                     for (job in intermediateJobs) {
                         stage("Trigger ${job.name}") {
                             script {
-                                parallel triggerIntermediateJob(job.name, job.version)
+                                triggerIntermediateJob(job.name, job.version)
                             }
                         }
                     }
