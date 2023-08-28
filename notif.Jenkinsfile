@@ -20,15 +20,13 @@ node {
                 ]
 
             listOfMaps.each { map -> 
-                if (map.UEVersion == params.UEVersion) {
-                    for (job in map.baseJobInMap) {
-                        def jobName = job.job
-                        def build = retrieveLatestBuild(jobName)
-                        if (build) {
-                            printBuildResult(build)
-                        } else {
-                            echo "No builds found for job: ${jobName}"
-                        }
+                for (job in map.baseJobInMap) {
+                    def jobName = job.job
+                    def build = retrieveLatestBuild(jobName)
+                    if (build) {
+                        printBuildResult(build)
+                    } else {
+                        echo "No builds found for job: ${jobName}"
                     }
                 }
             }
