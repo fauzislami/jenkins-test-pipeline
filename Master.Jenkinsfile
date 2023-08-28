@@ -52,8 +52,8 @@ pipeline {
                         if (build) {
                             def buildResult = build.result
                             if (buildResult) {
-                                println "The build is ${buildResult}"
-                                failedJobs.add("[${jobName}] ${buildResult}")               
+                                def emoji = currentBuild.resultIsBetterOrEqualTo("SUCCESS") ? ":white_check_mark:" : ":x:"
+                                failedJobs.add("[${jobName}] ${buildResult} $emoji")               
                             }
                         } else {
                             echo "No builds found for job: ${jobName}"
