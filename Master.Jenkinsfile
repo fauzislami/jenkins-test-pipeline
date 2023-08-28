@@ -6,19 +6,14 @@ pipeline {
             steps {
                 script {
                     def failedJobs = []
-                    def listOfTriggeredJobs = []
-
-
                     def triggerIntermediateJob = { jobName, ueVersion ->
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
-                        def childJobs = buildInfo.getBuilds()
-                        listOfTriggeredJobs.add("[${jobName}] ${childJobs}")
-                        println "${listOfTriggeredJobs}"
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
+                            error "${jobName} failed"
                         }
                     }
 
