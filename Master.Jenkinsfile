@@ -7,7 +7,7 @@ def printBuildResult(build, jobName) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
     
-    if (build.resultIsBetterOrEqualTo(hudson.model.Result.FAILURE)) {
+    if (build.result == 'FAILURE') {
         failedJobs.add("[${jobName}]")
     }
 }
