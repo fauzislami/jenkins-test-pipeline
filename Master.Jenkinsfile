@@ -3,9 +3,13 @@ def retrieveLatestBuild(jobName) {
     return build
 }
 
-def printBuildResult(build) {
+def printBuildResult(build, jobName) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
+    
+    if (build.resultIsBetterOrEqualTo(hudson.model.Result.FAILURE)) {
+        failedJobs.add("[${jobName}]")
+    }
 }
 
 pipeline {
@@ -50,8 +54,8 @@ pipeline {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         if (build) {
-                            printBuildResult(build)
-                            failedJobs.add("[${jobName}]")
+                            printBuildResult(build, jobName)
+                            //failedJobs.add("[${jobName}]")
                         } else {
                             echo "No builds found for job: ${jobName}"
                         }
