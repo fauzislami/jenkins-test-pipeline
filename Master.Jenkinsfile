@@ -25,13 +25,17 @@ pipeline {
                         }
                     }
 
+                    def parallelStages = [:]
+
                     for (job in intermediateJobs) {
-                        stage("Trigger ${job.name}") {
+                        parallelStages["Trigger ${job.name}"] = {
                             script {
                                 triggerIntermediateJob(job.name, job.version)
                             }
                         }
                     }
+
+                    parallel parallelStages
 
                     if (!failedJobs.isEmpty()) {
                         def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
