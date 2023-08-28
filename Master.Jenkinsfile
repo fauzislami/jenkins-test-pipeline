@@ -16,8 +16,9 @@ pipeline {
                         def hi = hudson.model.Hudson.instance
                             hi.getItems(hudson.model.Project).each {project ->
                             println(project.displayName)
-                            di = project.getDownstreamProjects()
+                            di = project.getDownstreamProjects().collect { it.fullName }
                             println(di.name)
+                            println(di)
                         }
 
                         println "${hi}"
