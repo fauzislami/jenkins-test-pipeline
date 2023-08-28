@@ -22,13 +22,13 @@ UE5_2BaseJobs = [
 
 //Jobs for other platforms
 UE4_27PlatformsJobs = [
-    //[job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-PS4-Shipping', params: [string(name: 'city', value: 'samarinda'), string(name: 'province', value: 'east borneo')]],
-    //[job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-PS4-Debug', params: [string(name: 'city', value: 'pontianak'), string(name: 'province', value: 'west borneo')]]
+    [job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-PS4-Shipping', params: [string(name: 'city', value: 'samarinda'), string(name: 'province', value: 'east borneo')]],
+    [job: 'testing/UE4.27/DCL-Sample-Project-UE4.27-PS4-Debug', params: [string(name: 'city', value: 'pontianak'), string(name: 'province', value: 'west borneo')]]
 ]
 
 UE5_0PlatformsJobs = [
- //   [job: 'testing/UE5.0/DCL-Sample-Project-UE5.0-PS4-Shipping', params: [string(name: 'city', value: 'makassar'), string(name: 'province', value: 'south sulawesi')]],
- //   [job: 'testing/UE5.0/DCL-Sample-Project-UE5.0-PS4-Debug', params: [string(name: 'city', value: 'manado'), string(name: 'province', value: 'north sulawesi')]]
+    [job: 'testing/UE5.0/DCL-Sample-Project-UE5.0-PS4-Shipping', params: [string(name: 'city', value: 'makassar'), string(name: 'province', value: 'south sulawesi')]],
+    [job: 'testing/UE5.0/DCL-Sample-Project-UE5.0-PS4-Debug', params: [string(name: 'city', value: 'manado'), string(name: 'province', value: 'north sulawesi')]]
 ]
 
 UE5_1PlatformsJobs = [
