@@ -49,7 +49,7 @@ pipeline {
                     for (job in BaseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
-                        def buildResult = build.getResult()
+                        def buildResult = build.result
                         println "${buildResult}"
                         if (buildResult) {
                             //printBuildResult(build)
