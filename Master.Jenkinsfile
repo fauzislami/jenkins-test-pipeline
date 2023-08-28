@@ -50,7 +50,7 @@ pipeline {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         if (build) {
-                            def buildResult = build.getResult()
+                            def buildResult = currentBuild.result
                             def buildUrl = build.getAbsoluteUrl()
                             if (buildResult) {
                                 def emoji = buildResult == "SUCCESS" ? ":white_check_mark:" : ":x:"
