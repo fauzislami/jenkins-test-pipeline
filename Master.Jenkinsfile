@@ -50,10 +50,11 @@ pipeline {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         if (build) {
-                            def buildResult = build.result
+                            def buildResult = build.getResult()
+                            def buildURL = build.getAbsoluteUrl()
                             if (buildResult) {
                                 def emoji = buildResult == "SUCCESS" ? ":white_check_mark:" : ":x:"
-                                failedJobs.add("[${jobName}] ${buildResult} $emoji")               
+                                failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
                             }
                         } else {
                             echo "No builds found for job: ${jobName}"
