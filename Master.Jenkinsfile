@@ -3,13 +3,15 @@ def retrieveLatestBuild(jobName) {
     return build
 }
 
-def printBuildResult(build, jobName, failedJobs) {
+def printBuildResult(build, jobName) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
     
     if (build.result == 'FAILURE') {
         failedJobs.add("[${jobName}]")
+        return true
     }
+    return false
 }
 
 pipeline {
