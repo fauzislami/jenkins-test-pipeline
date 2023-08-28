@@ -57,7 +57,7 @@ pipeline {
                         }
                     }
                     if (!failedJobs.isEmpty()) {
-                        def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
+                        def message = "The following jobs failed:\n" + failedJobs.join('\n')
                         slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                     }
                 }
