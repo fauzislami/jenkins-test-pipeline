@@ -7,15 +7,16 @@ pipeline {
                 script {
                     def failedJobs = []
 
-                    def buildUrl = { jobName, buildNumber ->
-                        return "${env.JENKINS_URL}job/${jobName}/${buildNumber}/"
-                    }
+                    //def buildUrl = { jobName, buildNumber ->
+                    //    return "${env.JENKINS_URL}job/${jobName}/${buildNumber}/"
+                    //}
 
                     def triggerIntermediateJob = { jobName, ueVersion ->
                         try {
                             build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], wait: true
                         } catch (Exception e) {
-                            failedJobs.add("[${jobName}](${buildUrl("testing/Intermediates/${jobName}", currentBuild.number)})")
+                            //failedJobs.add("[${jobName}](${buildUrl("testing/Intermediates/${jobName}", currentBuild.number)})")
+                            failedJobs.add("[${jobName}]: ${jobName}.getAbsoluteUrl()") 
                         }
                     }
 
