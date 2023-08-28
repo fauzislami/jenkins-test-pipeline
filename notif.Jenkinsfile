@@ -7,27 +7,23 @@ def printBuildResult(build) {
     echo "Job: ${build.project.name}"
     echo "Build Status: ${build.result}"
 }
+
 node {
     stage("Retrieve and Print Build Results") {
         checkout scm
         script {
-            def varsFile = load 'listOfJobs.groovy'
-            def listOfMaps = [
-                [baseJobInMap: UE4_27BaseJobs, platformJobInMap: UE4_27PlatformsJobs, UEVersion: "4.27"],
-                [baseJobInMap: UE5_0BaseJobs, platformJobInMap: UE5_0PlatformsJobs, UEVersion: "5.0"],
-                [baseJobInMap: UE5_1BaseJobs, platformJobInMap: UE5_1PlatformsJobs, UEVersion: "5.1"],
-                [baseJobInMap: UE5_2BaseJobs, platformJobInMap: UE5_2PlatformsJobs, UEVersion: "5.2"],
-                ]
+            def varsFile4_27 = load 'UE4_27.groovy'
+            def varsFile5_0 = load 'UE5_0.groovy'
+            def varsFile5_1 = load 'UE5_1.groovy'
+            def varsFile5_2 = load 'UE5_2.groovy'
 
-            listOfMaps.each { map -> 
-                for (job in map.baseJobInMap) {
-                    def jobName = job.job
-                    def build = retrieveLatestBuild(jobName)
-                    if (build) {
-                        printBuildResult(build)
-                    } else {
-                        echo "No builds found for job: ${jobName}"
-                    }
+            for (job in BaseJobs) {
+                def jobName = job.job
+                def build = retrieveLatestBuild(jobName)
+                if (build) {
+                    printBuildResult(build)
+                } else {
+                    echo "No builds found for job: ${jobName}"
                 }
             }
         }
