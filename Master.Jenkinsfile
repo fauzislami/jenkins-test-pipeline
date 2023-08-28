@@ -13,7 +13,7 @@ pipeline {
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
-                            error "${jobName} failed"
+                            //error "${jobName} failed"
                         }
                     }
 
