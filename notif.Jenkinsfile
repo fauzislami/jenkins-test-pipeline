@@ -12,10 +12,15 @@ node {
     stage("Retrieve and Print Build Results") {
         checkout scm
         script {
-            def varsFile4_27 = load 'UE4_27.groovy'
-            //def varsFile5_0 = load 'UE5_0.groovy'
-            //def varsFile5_1 = load 'UE5_1.groovy'
-            //def varsFile5_2 = load 'UE5_2.groovy'
+            def varsFileNames = ['UE4_27.groovy', 'UE5_0.groovy', 'UE5_1.groovy', 'UE5_2.groovy']
+            def joinedContent = ''
+
+            for (fileName in varsFileNames) {
+                def groovyContent = load fileName
+                joinedContent += groovyContent
+            }
+
+            writeFile file: 'joinedFileContents.groovy', text: joinedContent
 
             for (job in BaseJobs) {
                 def jobName = job.job
