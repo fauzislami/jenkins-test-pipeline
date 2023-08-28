@@ -11,7 +11,7 @@ pipeline {
                     def triggerIntermediateJob = { jobName, ueVersion ->
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], wait: true
                         def buildResult = buildInfo.getResult()
-                        def jobUrl = "${buildInfo.getAbsoluteUrl()}"
+                        def jobUrl = buildInfo.getAbsoluteUrl()
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
