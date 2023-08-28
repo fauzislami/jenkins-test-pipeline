@@ -12,9 +12,10 @@ pipeline {
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
                         def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
-                        echo "Last success: ${job.getLastSuccessfulBuild()}"
-                        echo "Last build: ${job.getLastBuild()}"
-                        echo "Is building: ${job.isBuilding()}"
+                        println "${job.getDownstreamProjects()}"
+                        //echo "Last success: ${job.getLastSuccessfulBuild()}"
+                        //echo "Last build: ${job.getLastBuild()}"
+                        //echo "Is building: ${job.isBuilding()}"
 
                         //if (job) {
                         //   def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
