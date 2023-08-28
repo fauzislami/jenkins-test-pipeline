@@ -38,7 +38,7 @@ pipeline {
             script {
                 def jobsResultsByUE = [:]
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
-                def message
+                def combinedMessage = ""
 
                 for (groovyFile in groovyFiles) {
                     def ueVersion = groovyFile.tokenize('_')[0]
@@ -61,8 +61,10 @@ pipeline {
                 }
                 jobsResultsByUE.each { version, results -> 
                     if (!results.isEmpty()) {
-                        message = "The following jobs failed for UE ${version}:\n" + results.join('\n')
+                        combinedMessage += "The following jobs failed for UE ${version}:\n" + results.join('\n') + "\n"
                     }
+                }
+                if (!combinedMessage.isEmpty()) {
                     slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                 }
             }
