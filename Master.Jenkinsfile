@@ -21,7 +21,7 @@ pipeline {
                             println(di)
                         }
 
-                        println "${hi}"
+                        println "${hi.name}"
 
                         //echo "Last success: ${job.getLastSuccessfulBuild()}"
                         //echo "Last build: ${job.getLastBuild()}"
