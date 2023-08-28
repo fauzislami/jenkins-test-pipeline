@@ -43,8 +43,9 @@ pipeline {
                 for (groovyFile in groovyFiles) {
                     def ueVersion = groovyFile.tokenize('.')[0]
                     def varsFile = load groovyFile
+                    def allJobs = varsFile.BaseJobs + varsFile.PlatformsJobs
 
-                    for (job in BaseJobs) {
+                    for (job in allJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         def buildResult = "${build.result}"
