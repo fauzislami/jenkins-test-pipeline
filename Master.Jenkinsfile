@@ -41,7 +41,7 @@ pipeline {
                 def combinedMessage = ""
 
                 for (groovyFile in groovyFiles) {
-                    def ueVersion = groovyFile.tokenize('_')[0]
+                    def ueVersion = groovyFile.tokenize('.')[0]
                     def varsFile = load groovyFile
 
                     for (job in BaseJobs) {
