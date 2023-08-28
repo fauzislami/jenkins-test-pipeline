@@ -15,16 +15,13 @@ pipeline {
                         def downstreamJobs = job.getDownstreamProject().collect { it.fullName }
                         println "Downstream jobs of ${jobName}: ${downstreamJobs}"
                         
-                        //echo "Last success: ${job.getLastSuccessfulBuild()}"
-                        //echo "Last build: ${job.getLastBuild()}"
-                        //echo "Is building: ${job.isBuilding()}"
 
-                        //if (job) {
-                        //   def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
-                        //   println "Downstream jobs of ${jobName}: ${downstreamJobs}"
-                        //} else {
-                        //    println "Job not found: ${jobName}"
-                        //    }
+                        if (job) {
+                           def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
+                           println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                        } else {
+                            println "Job not found: ${jobName}"
+                            }
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
