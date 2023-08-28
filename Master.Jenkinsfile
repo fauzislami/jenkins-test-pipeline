@@ -49,7 +49,7 @@ pipeline {
                     for (job in BaseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
-                        def buildResult = println "${build.result}"
+                        def buildResult = "${build.result}"
                         def buildUrl = build.getAbsoluteUrl()
                         if (buildResult == "FAILURE") {
                             //def emoji = buildResult == "FAILURE" ? ":white_check_mark:" : ":x:"
