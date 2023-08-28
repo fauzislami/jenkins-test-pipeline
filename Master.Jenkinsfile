@@ -16,12 +16,12 @@ pipeline {
             parallel {
              stage('Intermediate-ue4_27') {
                  steps {
-                     build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
+                     build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], propagate: false, wait: true
                  }
              }
              stage('Intermediate-ue5_0') {
                  steps {
-                     build job: 'testing/Intermediates/Intermediate-ue5_0', parameters: [string(name: 'UEVersion', value: '5.0')], wait: true
+                     build job: 'testing/Intermediates/Intermediate-ue5_0', parameters: [string(name: 'UEVersion', value: '5.0')], propagate: false, wait: true
                  }
              }
              stage('Intermediate-ue5_1') {
