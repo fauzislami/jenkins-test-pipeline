@@ -6,14 +6,6 @@ pipeline {
             steps {
                 script {
                     def failedJobs = []
-
-                    def intermediateJobs = [
-                        ["name": "Intermediate-ue4_27", "version": '4.27'],
-                        ["name": "Intermediate-ue5_0", "version": '5.0'],
-                        ["name": "Intermediate-ue5_1", "version": '5.1'],
-                        ["name": "Intermediate-ue5_2", "version": '5.2']
-                    ]
-
                     def triggerIntermediateJob = { jobName, ueVersion ->
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
@@ -25,17 +17,20 @@ pipeline {
                         }
                     }
 
-                    def parallelStages = [:]
-
-                    for (job in intermediateJobs) {
-                        parallelStages["Trigger ${job.name}"] = {
-                            script {
-                                triggerIntermediateJob(job.name, job.version)
-                            }
+                    parallel(
+                        "Intermediate-ue4_27": {
+                            triggerIntermediateJob("Intermediate-ue4_27", '4.27')
+                        },
+                        "Intermediate-ue5_0": {
+                            triggerIntermediateJob("Intermediate-ue5_0", '5.0')
+                        },
+                        "Intermediate-ue5_1": {
+                            triggerIntermediateJob("Intermediate-ue5_1", '5.1')
+                        },
+                        "Intermediate-ue5_2": {
+                            triggerIntermediateJob("Intermediate-ue5_2", '5.2')
                         }
-                    }
-
-                    parallel parallelStages
+                    )
 
                     if (!failedJobs.isEmpty()) {
                         def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
