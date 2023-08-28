@@ -11,7 +11,7 @@ pipeline {
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
-                        def job = Jenkins.instance.getItemByFullName('testing/Intermediates/Intermediate-ue5_1')
+                        def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
                         echo "Last success: ${job.getLastSuccessfulBuild()}"
                         echo "Last build: ${job.getLastBuild()}"
                         echo "Is building: ${job.isBuilding()}"
