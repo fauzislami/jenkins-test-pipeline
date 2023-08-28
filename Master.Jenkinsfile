@@ -17,8 +17,8 @@ pipeline {
                         } else {
                             def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
                             if (job) {
-                                def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
-                                println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                                def downstreamJobs = job.getDownstreamProjects()
+                                println "Downstream jobs of ${jobName}: ${downstreamJobs*.fullName}"
                             } else {
                                 println "Job not found: ${jobName}"
                             }
