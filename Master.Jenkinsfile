@@ -36,7 +36,7 @@ pipeline {
     post {
         always {
             script {
-                def jobsResult = []
+                def jobsResults = []
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
 
                 for (groovyFile in groovyFiles) {
@@ -49,12 +49,12 @@ pipeline {
                         def buildUrl = build.getAbsoluteUrl()
                         if (buildResult) {
                             def emoji = buildResult == "FAILURE" ? ":x:" : ":white_check_mark:"
-                            jobsResult.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
+                            jobsResults.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
                         }
                     }
                 }
-                if (!jobsResult.isEmpty()) {
-                    def message = "The following jobs failed:\n" + jobsResult.join('\n')
+                if (!jobsResults.isEmpty()) {
+                    def message = "The following jobs failed:\n" + jobsResults.join('\n')
                     slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
                 }
             }
