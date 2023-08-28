@@ -1,3 +1,13 @@
+def retrieveLatestBuild(jobName) {
+    def build = jenkins.model.Jenkins.instance.getItemByFullName(jobName).getLastBuild()
+    return build
+}
+
+def printBuildResult(build) {
+    echo "Job: ${build.project.name}"
+    echo "Build Status: ${build.result}"
+}
+
 pipeline {
     agent any
 
