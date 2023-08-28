@@ -10,13 +10,18 @@ pipeline {
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
-                        def downstreamJobs = Jenkins.instance.getItemByFullName(jobName).getDownstreamProjects().collect { it.fullName }
-
-                        println "Downstream jobs of ${jobName}: ${downstreamJobs}"
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
                             //error "${jobName} failed"
+                        } else {
+                            def job = Jenkins.instance.getItemByFullName(jobName)
+                            if (job) {
+                                def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
+                                println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                            } else {
+                                println "Job not found: ${jobName}"
+                            }
                         }
                     }
 
