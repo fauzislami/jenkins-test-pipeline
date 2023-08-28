@@ -8,30 +8,17 @@ def printBuildResult(build) {
     echo "Build Status: ${build.result}"
 }
 node {
-    stage("Load Variables") {
+    stage("Retrieve and Print Build Results") {
         checkout scm
         script {
             def varsFile = load 'listOfJobs.groovy'
-        }
-    }
-}
-
-pipeline {
-    agent any
-    
-    stages {
-        stage('Retrieve and Print Build Results') {
-            steps {
-                script {
-                    for (job in baseJobs) {
-                        def jobName = job.job
-                        def build = retrieveLatestBuild(jobName)
-                        if (build) {
-                            printBuildResult(build)
-                        } else {
-                            echo "No builds found for job: ${jobName}"
-                        }
-                    }
+            for (job in baseJobs) {
+                def jobName = job.job
+                def build = retrieveLatestBuild(jobName)
+                if (build) {
+                    printBuildResult(build)
+                } else {
+                    echo "No builds found for job: ${jobName}"
                 }
             }
         }
