@@ -11,7 +11,7 @@ pipeline {
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
 
-                        def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
+                        def job = Jenkins.instance.getItemByFullName(testing/Intermediates/${jobName})
                         if (job) {
                             def downstreamJobs = job.getDownstreamProjects().collect { it.fullName }
                             println "Downstream jobs of ${jobName}: ${downstreamJobs}"
