@@ -51,9 +51,9 @@ pipeline {
                         def build = retrieveLatestBuild(jobName)
                         def buildResult = "${build.result}"
                         def buildUrl = build.getAbsoluteUrl()
-                        if (buildResult == "FAILURE") {
-                            //def emoji = buildResult == "FAILURE" ? ":white_check_mark:" : ":x:"
-                            def emoji = ":x:"
+                        if (buildResult) {
+                            def emoji = buildResult == "FAILURE" ? ":x:" : ":white_check_mark:"
+                            //def emoji = ":x:"
                             failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
                         }
                     }
