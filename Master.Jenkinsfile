@@ -19,7 +19,7 @@ pipeline {
                             di = project.getDownstreamProjects()
                         }
 
-                        printl "${hi}"
+                        println "${hi}"
 
                         //echo "Last success: ${job.getLastSuccessfulBuild()}"
                         //echo "Last build: ${job.getLastBuild()}"
