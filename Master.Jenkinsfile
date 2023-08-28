@@ -41,7 +41,7 @@ pipeline {
         always {
             script {
                 def failedJobs = []
-                def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy"]
+                def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
 
                 for (groovyFile in groovyFiles) {
                     def varsFile = load groovyFile
