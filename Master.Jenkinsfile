@@ -6,29 +6,17 @@ pipeline {
             steps {
                 script {
                     def failedJobs = []
-
                     def triggerIntermediateJob = { jobName, ueVersion ->
-                        def job = Jenkins.instance.getItemByFullName("testing/Intermediates/${jobName}")
-                    
-                        if (job) {
-                            def latestBuild = job.getLastBuild()
-                            
-                            if (latestBuild) {
-                                def downstreamJobs = Jenkins.instance.getAllItems(Job).findAll { it.upstreamProjects.contains(job) }
-                                def buildResult = latestBuild.result
-                                def jobUrl = latestBuild.absoluteUrl
-                    
-                                if (buildResult == hudson.model.Result.FAILURE) {
-                                    failedJobs.add("[${jobName}] ${jobUrl}")
-                                } else {
-                                    def downstreamJobNames = downstreamJobs.collect { it.fullName }
-                                    println "Downstream jobs of ${jobName}: ${downstreamJobNames}"
-                                }
-                            } else {
-                                println "No builds found for job: ${jobName}"
-                            }
-                        } else {
-                            println "Job not found: ${jobName}"
+                        def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
+                        def buildResult = buildInfo.getResult()
+                        def jobUrl = buildInfo.getAbsoluteUrl()
+                        def downstreamJobs = Jenkins.instance.getItemByFullName(jobName).getDownstreamProjects().collect { it.fullName }
+
+                        println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+
+                        if (buildResult == 'FAILURE') {
+                            failedJobs.add("[${jobName}] ${jobUrl}")
+                            //error "${jobName} failed"
                         }
                     }
 
