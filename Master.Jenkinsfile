@@ -12,16 +12,17 @@ pipeline {
                     
                         if (job) {
                             def latestBuild = job.getLastBuild()
+                            
                             if (latestBuild) {
-                                def downstreamBuilds = latestBuild.getDownstreamBuilds()
-                                def buildResult = latestBuild.getResult()
-                                def jobUrl = latestBuild.getAbsoluteUrl()
+                                def downstreamJobs = Jenkins.instance.getAllItems(Job).findAll { it.upstreamProjects.contains(job) }
+                                def buildResult = latestBuild.result
+                                def jobUrl = latestBuild.absoluteUrl
                     
-                                if (buildResult == 'FAILURE') {
+                                if (buildResult == hudson.model.Result.FAILURE) {
                                     failedJobs.add("[${jobName}] ${jobUrl}")
                                 } else {
-                                    def downstreamJobs = downstreamBuilds.collect { it.project.fullName }
-                                    println "Downstream jobs of ${jobName}: ${downstreamJobs}"
+                                    def downstreamJobNames = downstreamJobs.collect { it.fullName }
+                                    println "Downstream jobs of ${jobName}: ${downstreamJobNames}"
                                 }
                             } else {
                                 println "No builds found for job: ${jobName}"
