@@ -52,7 +52,7 @@ pipeline {
                         def buildUrl = build.getAbsoluteUrl()
 
                         if (buildResult != "SUCCESS") {
-                            def emoji = ":x:"
+                            def emoji = buildResult == "FAILURE" ? ":x:" : ":no_entry_sign:"
                             if (!jobsResultsByUE.containsKey(ueVersion)) {
                                 jobsResultsByUE[ueVersion] = []
                             }
