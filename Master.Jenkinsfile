@@ -52,7 +52,7 @@ pipeline {
                         if (build) {
                             printBuildResult(build)
                             def ueVersion = groovyFile.replaceAll("[^0-9]", "_")
-                            failedJobsByUEVersion[ueVersion] ||= []
+                            failedJobsByUEVersion[ueVersion] || = []
                             failedJobsByUEVersion[ueVersion] << "[${jobName}]"
                         } else {
                             echo "No builds found for job: ${jobName}"
