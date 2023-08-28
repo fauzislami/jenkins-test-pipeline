@@ -49,16 +49,12 @@ pipeline {
                     for (job in BaseJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
-                        if (build) {
-                            def buildResult = build.result
-                            def buildUrl = build.getAbsoluteUrl()
-                            if (buildResult == "FAILURE") {
-                                //def emoji = buildResult == "FAILURE" ? ":white_check_mark:" : ":x:"
-                                def emoji = ":white_check_mark:"
-                                failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
-                            }
-                        } else {
-                            echo "No builds found for job: ${jobName}"
+                        def buildResult = println "${build.result}"
+                        def buildUrl = build.getAbsoluteUrl()
+                        if (buildResult == "FAILURE") {
+                            //def emoji = buildResult == "FAILURE" ? ":white_check_mark:" : ":x:"
+                            def emoji = ":x:"
+                            failedJobs.add("[${jobName}] - <${buildUrl}|See here> - ${buildResult} $emoji")               
                         }
                     }
                 }
