@@ -39,12 +39,13 @@ pipeline {
                 def jobsResultsByUE = [:]
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 def combinedMessage = ""
+                def allJobs = BaseJobs + PlatformJobs
 
                 for (groovyFile in groovyFiles) {
                     def ueVersion = groovyFile.tokenize('_')[0]
                     def varsFile = load groovyFile
 
-                    for (job in BaseJobs) {
+                    for (job in allJobs) {
                         def jobName = job.job
                         def build = retrieveLatestBuild(jobName)
                         def buildResult = "${build.result}"
