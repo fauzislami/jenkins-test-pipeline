@@ -10,8 +10,7 @@ pipeline {
                         def buildInfo = build job: "testing/Intermediates/${jobName}", parameters: [string(name: 'UEVersion', value: ueVersion)], propagate: false, wait: true
                         def buildResult = buildInfo.getResult()
                         def jobUrl = buildInfo.getAbsoluteUrl()
-                        def jobCauses = buildInfo.getBuildCauses()
-                        println "${jobCauses}"
+                        println "${buildInfo.getClass()}"
 
                         if (buildResult == 'FAILURE') {
                             failedJobs.add("[${jobName}] ${jobUrl}")
