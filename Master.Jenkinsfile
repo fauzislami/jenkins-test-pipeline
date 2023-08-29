@@ -39,9 +39,10 @@ pipeline {
                 def jobResultsByType = [:]
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 def combinedMessage = ""
+                def jobType
 
                 for (groovyFile in groovyFiles) {
-                    def jobType = groovyFile.tokenize('.')[0]
+                    jobType = groovyFile.tokenize('.')[0]
                     def varsFile = load groovyFile
                     def allJobs = BaseJobs + PlatformsJobs
 
