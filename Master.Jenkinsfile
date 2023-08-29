@@ -45,6 +45,7 @@ pipeline {
                 //slackNotif(groovyFiles)
                 def varFile = load 'UE4_27.groovy'
                 println BaseJobs
+                println PlatformsJobs
             }
          }
      }
