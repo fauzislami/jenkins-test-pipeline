@@ -1,7 +1,17 @@
-def retrieveLatestBuild(jobName) {
-    def build = jenkins.model.Jenkins.instance.getItemByFullName(jobName).getLastBuild()
-    return build
+//def retrieveLatestBuild(jobName) {
+//    def build = jenkins.model.Jenkins.instance.getItemByFullName(jobName).getLastBuild()
+//    return build
+//}
+
+node {
+    stage("Load Variables") {
+        checkout scm
+        script {
+            loadVars(groovyFiles)
+        }
+    }
 }
+
 
 @Library('MyTestLibrary') _
 
@@ -43,7 +53,7 @@ pipeline {
             script{
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 //slackNotif(groovyFiles)
-                loadVars(groovyFiles)
+                //loadVars(groovyFiles)
             }
          }
      }
