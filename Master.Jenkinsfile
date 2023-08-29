@@ -41,7 +41,8 @@ pipeline {
     post {
          always {
             script{
-                def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                def groovyFiles = ["UE4_27.groovy"]
                 slackNotif(groovyFiles)
             }
          }
