@@ -67,6 +67,8 @@ pipeline {
                 }
                 if (!combinedMessage.isEmpty()) {
                     slackSend(channel: '#jenkins-notif-test', message: combinedMessage, color: 'danger')
+                } else {
+                    slackSend(channel: '#jenkins-notif-test', message: "All jobs succeed", color: 'good')
                 }
             }
         }
