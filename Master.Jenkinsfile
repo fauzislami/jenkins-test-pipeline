@@ -15,6 +15,10 @@ pipeline {
                  steps {
                      //build job: 'testing/Intermediates/Intermediate-ue4_27', parameters: [string(name: 'UEVersion', value: '4.27')], wait: true
                     echo "test"
+                    script{
+                        def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                        slackNotif(groovyFiles)
+                    }
                  }
              }
              stage('Intermediate-ue5_0') {
