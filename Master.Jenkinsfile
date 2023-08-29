@@ -1,7 +1,7 @@
-//def retrieveLatestBuild(jobName) {
-//    def build = jenkins.model.Jenkins.instance.getItemByFullName(jobName).getLastBuild()
-//    return build
-//}
+def retrieveLatestBuild(jobName) {
+    def build = jenkins.model.Jenkins.instance.getItemByFullName(jobName).getLastBuild()
+    return build
+}
 
 @Library('MyTestLibrary') _
 
