@@ -29,13 +29,14 @@ pipeline {
              stage('Intermediate-ue5_2') {
                  steps {
                      build job: 'testing/Intermediates/Intermediate-ue5_2', parameters: [string(name: 'UEVersion', value: '5.2')], wait: true
-                    
                  }
              }
           }
        }
         stage('Send Notifications'){
-            slackNotif(["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"])
+            steps{
+                slackNotif(["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"])
+            }
         }
     }
    // post {
