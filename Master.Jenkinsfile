@@ -3,6 +3,7 @@
 //    return build
 //}
 
+@Library('MyTestLibrary') _
 
 pipeline {
     agent any
