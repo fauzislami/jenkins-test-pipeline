@@ -68,7 +68,7 @@ pipeline {
                 if (!combinedMessage.isEmpty()) {
                     slackSend(channel: '#jenkins-notif-test', message: combinedMessage, color: 'danger')
                 } else {
-                    slackSend(channel: '#jenkins-notif-test', message: "All jobs succeed", color: 'good')
+                    slackSend(channel: '#jenkins-notif-test :white_check_mark:', message: "All jobs succeed", color: 'good')
                 }
             }
         }
