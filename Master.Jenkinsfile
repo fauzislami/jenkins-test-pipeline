@@ -42,7 +42,7 @@ pipeline {
          always {
             script{
                 //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
-                def varsFile = laod 'UE4_27.groovy'
+                def varsFile = load 'UE4_27.groovy'
                 //slackNotif(groovyFiles)
                 loadVars(groovyFiles)
             }
