@@ -41,11 +41,14 @@ pipeline {
     post {
          always {
             script{
-                //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 //slackNotif(groovyFiles)
-                def varFile = load 'UE4_27.groovy'
-                println BaseJobs
-                println PlatformsJobs
+                for (groovyFile in groovyFiles) {
+                    def jobType = groovyFile.tokenize('.')[0]
+                    def varsFile = load groovyFile
+                    def allJobs = BaseJobs + PlatformsJobs
+                    println allJobs
+                }
             }
          }
      }
