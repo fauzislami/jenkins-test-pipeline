@@ -33,10 +33,6 @@ pipeline {
              }
           }
        }
-        stage('Send Notifications'){
-            steps{
-            }
-        }
     }
     post {
          always {
