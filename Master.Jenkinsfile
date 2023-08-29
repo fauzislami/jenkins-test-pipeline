@@ -43,7 +43,6 @@ pipeline {
             script{
                 def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 for (groovyFile in groovyFiles) {
-                    def jobType = groovyFile.tokenize('.')[0]
                     def varsFile = load groovyFile
                     def allJobs = BaseJobs + PlatformsJobs
                     slackNotif(jobs: allJobs)
