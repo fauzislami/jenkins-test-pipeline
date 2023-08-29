@@ -3,17 +3,6 @@
 //    return build
 //}
 
-node {
-    stage("Load Variables") {
-        checkout scm
-        script {
-            def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
-            loadVars(groovyFiles)
-        }
-    }
-}
-
-
 @Library('MyTestLibrary') _
 
 pipeline {
@@ -52,9 +41,10 @@ pipeline {
     post {
          always {
             script{
-                def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
+                def varsFile = laod 'UE4_27.groovy'
                 //slackNotif(groovyFiles)
-                //loadVars(groovyFiles)
+                loadVars(groovyFiles)
             }
          }
      }
