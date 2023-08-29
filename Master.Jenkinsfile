@@ -40,7 +40,9 @@ pipeline {
     }
     post {
          always {
-            slackNotif(['UE4_27.groovy', 'UE5_0.groovy', 'UE5_1.groovy', 'UE5_2.groovy'])
+            steps{
+                slackNotif(['UE4_27.groovy', 'UE5_0.groovy', 'UE5_1.groovy', 'UE5_2.groovy'])
+            }
          }
      }
 }
