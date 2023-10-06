@@ -44,10 +44,10 @@ pipeline {
                 //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 //slackNotif(groovyFiles)
                 //loadVars(groovyFiles)
-                def message = "test"
                 def userIds = slackUserIdsFromCommitters()
                 def userIdsString = userIds.collect { "<@$it>" }.join(' ')
-                slackSend(channel: '#jenkins-notif-test', message: $userIdsString message, color: 'danger')
+                def message = "${userIdsString} test"
+                slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
             }
          }
      }
