@@ -44,7 +44,7 @@ pipeline {
                 //def groovyFiles = ["UE4_27.groovy", "UE5_0.groovy", "UE5_1.groovy", "UE5_2.groovy"]
                 //slackNotif(groovyFiles)
                 //loadVars(groovyFiles)
-                def message = "The following intermediate jobs failed:\n" + failedJobs.join('\n')
+                def message = "test"
                 slackSend(channel: '#jenkins-notif-test', message: message, color: 'danger')
             }
          }
